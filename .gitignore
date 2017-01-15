@@ -3,3 +3,4 @@ compare_tag_proportions_hadrons
 plot
 simple_tag_proportions
 *.eps
+*.root
