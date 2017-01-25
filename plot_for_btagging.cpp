@@ -1,5 +1,5 @@
 //Plotcode for B-Taggging 
-
+#define plot_for_btagging_cxx
 #include "TString.h"
 #include "TFile.h"
 #include "TH1.h"
@@ -8,29 +8,57 @@
 #include "array"
 #include <iostream>
 
+#include "plot_for_btagging.hpp"
 #include "utils.hpp"
 
-//Name of the file were all the all plots are stored. 
-	TString storeRootFileName = "output_plots.root";
+int hadron_number;
+float mv_value;
+
+TString hadron_type = "B"; 
 
 int main() {
 
-	TString [2] plotsToOverlay;
-	plotsToOverlay = {"PT Labled","PT Labled and Tagged"};
+  //Initialise TString with histograms we need from output_plots
+  TString storeRootFileName = "output_plots.root";
 
-	for (int i = 0, i<2, i++) {
+  std::array<TString,2> plotnames = {"desiredplotname1","desiredplotname2"};
+
+  for (int i=0; i<2; i++) { 
+
+    TString plotname = plotnames[i];
+    
+  // Access this rootfile, read it
+  TFile * f = new TFile(storeRootFileName, "READ");
+  f->cd();
+
+  //gDirectory is current directory, get the file from cd
+  TH1 * plot1 = (TH1F*)gDirectory->Get(storeRootFileName);
+  plot1->SetDirectory(0);
+  plot1->SetStats(0);
+  f->Close();
+
+  std::cout<<"Reading Plots From: "<<storeRootFileName;
+  }
+  return 0;
+}
+
+  // RAM'S SENT STUFF 
+  //TString [2] plotsToOverlay;
+  //plotsToOverlay = {"PT Labled","PT Labled and Tagged"};
+
+	//for (int i = 0, i<2, i++) {
 
 		//Acessing a rootfile and setting it up for reading using option: "READ"
-		TFile storeRootFile = TFile(storeRootFileName, "READ");
-		if (storeRootFile.cd()) {
-			TH1 * plot1 = 
-		}
+		//TFile storeRootFile = TFile(storeRootFileName, "READ");
+		//if (storeRootFile.cd()) {
+		  //TH1 * plot1 = 
+			  //}
 
-		cout<<"Reading plots from: "<<storeRootFileName
-	}
+		//cout<<"Reading plots from: "<<storeRootFileName
+		  //}
 
-	return 0;
-}
+	//return 0;
+
 
 void plot_for_btagging::overlayPlots(TH1* plot1, TH1* plot2, TString parameter) {
     
