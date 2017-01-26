@@ -26,9 +26,8 @@ int main() {
     TFile * output_file = new TFile("output_plots_test.root", "UPDATE");
     
     output_file->cd();
-    
     plot_for_btagging::ratioPlots(plot1, plot2, "PT");
-
+    plot_for_btagging::overlayPlots(plot1, plot2, "Overlay");
     output_file->Close();
     
     return 0;
@@ -52,12 +51,12 @@ int main() {
 //return 0;
 
 
-void plot_for_btagging::overlayPlots(TH1* plot1, TH1* plot2, TString parameter) {
+void plot_for_btagging::overlayPlots(TH1* plot1, TH1* plot2, TString plotName) {
     
-    TString plotname = hadron_type+" - "+parameter+" - Overlay"+" - Hadron: "+std::to_string(hadron_number)+" MV:"+std::to_string(mv_value);
+    TString plotname = plotName;
     
     //Cretes a directory
-    system("mkdir Overlays");
+    //system("mkdir Overlays");
     
     TH1 * plot1_clone = (TH1F*) plot1->Clone();
     TH1 * plot2_clone = (TH1F*) plot2->Clone();
@@ -76,7 +75,7 @@ void plot_for_btagging::overlayPlots(TH1* plot1, TH1* plot2, TString parameter) 
     plot2_clone->DrawCopy("same");
     legend->Draw();
     
-    c->Print("Overlays/"+plotname+".eps");
+    //c->Print("Overlays/"+plotname+".eps");
     c->Write();
     c->Update();
 }
