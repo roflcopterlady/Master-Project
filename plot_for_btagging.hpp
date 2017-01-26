@@ -1,6 +1,6 @@
 //
 //  plot_for_btagging.hpp
-//  
+//
 //
 //  Created by Kavushik Mohan Raj  on 15/01/2017.
 //
@@ -21,10 +21,9 @@
 
 class plot_for_btagging {
     
-    void overlayPlots(TH1* plot1, TH1* plot2, TString parameter);
-    void ratioPlots(TH1* plo1, TH1* plot2, TString parameter);
-    
-    //void overlayNPlots(std::vector<TH1*> plotArray, TString plotName);
+public: static void overlayPlots(TH1* plot1, TH1* plot2, TString parameter);
+public: static void ratioPlots(TH1* plo1, TH1* plot2, TString plotName);
+public: static TH1* getPlot(TString fileName, TString plotName);
     
 };
 
