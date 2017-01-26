@@ -17,39 +17,25 @@ TString hadron_type = "B";
 
 int main() {
     
+    std::vector<TH1* > testVector;
+    
     //Initialise TString with histograms we need from output_plots
     TString storeRootFileName = "output_plots.root";
     
     TH1* plot1 = plot_for_btagging::getPlot(storeRootFileName, "B_511_PT_L");
-    TH1* plot2 = plot_for_btagging::getPlot(storeRootFileName, "B_531_PT_L");
+    TH1* plot2 = plot_for_btagging::getPlot(storeRootFileName, "B_521_PT_L");
+    TH1* plot3 = plot_for_btagging::getPlot(storeRootFileName, "B_531_PT_L");
     
     TFile * output_file = new TFile("output_plots_test.root", "UPDATE");
     
     output_file->cd();
     plot_for_btagging::ratioPlots(plot1, plot2, "PT");
     plot_for_btagging::overlayPlots(plot1, plot2, "Overlay");
+    plot_for_btagging::overlayNPlots("Overlay3", plot1, plot2, plot3, NULL);
     output_file->Close();
     
     return 0;
 }
-
-// RAM'S SENT STUFF
-//TString [2] plotsToOverlay;
-//plotsToOverlay = {"PT Labled","PT Labled and Tagged"};
-
-//for (int i = 0, i<2, i++) {
-
-//Acessing a rootfile and setting it up for reading using option: "READ"
-//TFile storeRootFile = TFile(storeRootFileName, "READ");
-//if (storeRootFile.cd()) {
-//TH1 * plot1 =
-//}
-
-//cout<<"Reading plots from: "<<storeRootFileName
-//}
-
-//return 0;
-
 
 void plot_for_btagging::overlayPlots(TH1* plot1, TH1* plot2, TString plotName) {
     
@@ -99,4 +85,55 @@ TH1* plot_for_btagging::getPlot(TString fileName, TString plotName) {
     f->Close();
     
     return plot;
+}
+
+void plot_for_btagging::overlayNPlots(TString plotName, TH1* plot1,...) {
+    
+    std::vector<TH1*> clonePlotArray;
+    
+    TH1* currentPlot = plot1;
+    
+    va_list list;
+    va_start(list, plot1);
+    
+    while (currentPlot != NULL) {
+        
+        TH1* currentClone = (TH1F*) currentPlot->Clone();
+        
+        if (currentPlot == plot1) {
+            currentClone->SetTitle(plotName);
+        }
+        clonePlotArray.push_back(currentClone);
+        
+        
+        cout<<"gone around once"<<endl;
+        cout<<"SIZE: "<<clonePlotArray.size()<<endl;
+        
+        // Step to the next plot
+        currentPlot = va_arg(list, TH1*);
+    }
+    
+   va_end(list);
+    
+    TCanvas * c = new TCanvas();
+    
+    int colourCounter = 1;
+
+    for (TH1* histogram: clonePlotArray) {
+        
+        if (colourCounter == 1) {
+            histogram->DrawCopy();
+        }
+        else {
+            histogram->DrawCopy("same");
+        }
+        
+        histogram->SetLineColor(colourCounter);
+        colourCounter+=1;
+    }
+    
+    //c->Print("Overlays/"+plotname+".eps");
+    c->Write();
+    c->Update();
+    
 }
