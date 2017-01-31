@@ -20,20 +20,49 @@ int main() {
     std::vector<TH1* > testVector;
     
     //Initialise TString with histograms we need from output_plots
+    
+    TString allHadronsFile = "output_plots_all.root";
+    TString allHadronsGet = "output_plots_test.root";
+    
     TString storeRootFileName = "output_plots.root";
     
     TH1* plot1 = plot_for_btagging::getPlot(storeRootFileName, "B_511_PT_L");
+    
+    TH1* plot1T = plot_for_btagging::getPlot(storeRootFileName, "B_511_PT_LT_-0.788700");
     TH1* plot2 = plot_for_btagging::getPlot(storeRootFileName, "B_521_PT_L");
     TH1* plot3 = plot_for_btagging::getPlot(storeRootFileName, "B_531_PT_L");
     
+    TH1* plotAllLabeled = plot_for_btagging::getPlot(allHadronsFile, "PT of All B hadrons labeled - low mv");
+    TH1* plotAllPTTaggedLow = plot_for_btagging::getPlot(allHadronsFile, "PT of All B hadrons tagged - low mv");
+    TH1* plotAllPTTaggedHigh = plot_for_btagging::getPlot(allHadronsFile, "PT of All B hadrons tagged - high mv");
+    
     TFile * output_file = new TFile("output_plots_test.root", "UPDATE");
     
+    
+    
     output_file->cd();
-    plot_for_btagging::ratioPlots(plot1, plot2, "PT");
-    plot_for_btagging::overlayPlots(plot1, plot2, "Overlay");
+    //plot_for_btagging::ratioPlots(plot1, plot2, "PT");
+    plot_for_btagging::ratioPlots(plot1T, plot1, "Ratio of hadron PT 511 - mv low");
+    plot_for_btagging::ratioPlots(plotAllPTTaggedLow, plotAllLabeled, "Ratio of hadrons PT - mv low");
+    //plot_for_btagging::overlayPlots(plot1, plot2, "Overlay");
+    
+    
+    
     plot_for_btagging::overlayNPlots("Overlay3", plot1, plot2, plot3, NULL);
+    
+    
     output_file->Close();
     
+    
+    
+    TH1* plot511PTLow = plot_for_btagging::getPlot(allHadronsGet, "Ratio of hadron PT 511 - mv low");
+    TH1* plotallPTLow = plot_for_btagging::getPlot(allHadronsGet, "Ratio of hadrons PT - mv low");
+    
+    TFile * output_file_review = new TFile("output_plots_review.root", "UPDATE");
+    
+    output_file_review->cd();
+    plot_for_btagging::overlayPlots(plot511PTLow, plotallPTLow, "Overlay Review for all and 511");
+    output_file_review->Close();
     return 0;
 }
 
@@ -75,6 +104,7 @@ void plot_for_btagging::ratioPlots(TH1* plot1, TH1* plot2, TString plotName) {
     ratio->Write();
 }
 
+
 TH1* plot_for_btagging::getPlot(TString fileName, TString plotName) {
     
     TFile * f = new TFile(fileName, "READ");
@@ -105,10 +135,6 @@ void plot_for_btagging::overlayNPlots(TString plotName, TH1* plot1,...) {
         }
         clonePlotArray.push_back(currentClone);
         
-        
-        cout<<"gone around once"<<endl;
-        cout<<"SIZE: "<<clonePlotArray.size()<<endl;
-        
         // Step to the next plot
         currentPlot = va_arg(list, TH1*);
     }
@@ -132,8 +158,15 @@ void plot_for_btagging::overlayNPlots(TString plotName, TH1* plot1,...) {
         colourCounter+=1;
     }
     
-    //c->Print("Overlays/"+plotname+".eps");
     c->Write();
     c->Update();
+}
+
+TH1* plot_for_btagging::getRatioPlot(TH1* plot1, TH1* plot2, TString plotName) {
     
+    TH1 * ratio = (TH1F*) plot1->Clone();
+    ratio->SetTitle(plotName);
+    ratio->SetName(plotName);
+    ratio->Divide(plot2);
+    return ratio;
 }

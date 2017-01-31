@@ -25,6 +25,8 @@ public: static void overlayPlots(TH1* plot1, TH1* plot2, TString plotName);
 public: static void ratioPlots(TH1* plo1, TH1* plot2, TString plotName);
 public: static TH1* getPlot(TString fileName, TString plotName);
 public: static void overlayNPlots(TString plotName, TH1* plot1,...);
+    
+public: static TH1* getRatioPlot(TH1* plo1, TH1* plot2, TString plotName);
 
 };
 
