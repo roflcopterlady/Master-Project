@@ -109,6 +109,8 @@ class simple_tag_proportions {
     //virtual void ratioPlots(TH1* plo1, TH1* plot2, TString parameter);
     void hadronCountPlot(std::string type);
     void test (hadronTypes type);
+    void plot_all_properties();
+    void hadron_count_plot();
     
     
     virtual Bool_t   Notify();
