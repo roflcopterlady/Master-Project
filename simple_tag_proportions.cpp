@@ -380,10 +380,8 @@ void simple_tag_proportions::Loop() {
     h1b_prop->SetBinContent(1, tagged_jets/total_jets);
     
     ///USE "UPDATE" to append histograms to the output file
-    TFile * output_file_B = new TFile("output_plots_B_HADRONS.root", "UPDATE");
-    TFile * output_file_C = new TFile("output_plots_C_HADRONS.root", "UPDATE");
     
-    TFile * output_file = (hadron_type=="B") ? output_file_B : output_file_C;
+    TFile * output_file = (hadron_type=="B") ? new TFile("output_plots_B_HADRONS.root", "UPDATE") : new TFile("output_plots_C_HADRONS.root", "UPDATE");
     
     output_file->cd();
     
@@ -436,10 +434,10 @@ void simple_tag_proportions::plot_all_properties() {
     TFile * output_file_all = (hadron_type=="B") ? output_file_all_B : output_file_all_C;
     
     output_file_all->cd();
-   
+    
     B_all_pt_labeled->Write();
     B_all_eta_labeled->Write();
-  
+    
     B_all_pt_tagged_low->Write();
     B_all_eta_tagged_low->Write();
     B_all_pt_tagged_high->Write();
@@ -501,30 +499,23 @@ void simple_tag_proportions::hadron_count_plot() {
     TH1 * Hadron_count_plot_tagged_low;
     TH1 * Hadron_count_plot_tagged_high;
     
-
-    
     if (hadron_type=="B") {
         Hadron_count_plot = new TH1F("B_Hadron_count", "B_Hadron_count", 10, b_hadrons_bins);
         Hadron_count_plot_tagged_low = new TH1F("B_Hadron_count_mv_low", "B_Hadron_count_mv_low", 10, b_hadrons_bins);
         Hadron_count_plot_tagged_high = new TH1F("B_Hadron_count_mv_high", "B_Hadron_count_mv_high", 10, b_hadrons_bins);
         
-            std::vector<TH1*> count_plot_vector;
-            count_plot_vector.push_back(Hadron_count_plot);
-            count_plot_vector.push_back(Hadron_count_plot_tagged_low);
-            count_plot_vector.push_back(Hadron_count_plot_tagged_high);
+        std::vector<TH1*> count_plot_vector;
+        count_plot_vector.push_back(Hadron_count_plot);
+        count_plot_vector.push_back(Hadron_count_plot_tagged_low);
+        count_plot_vector.push_back(Hadron_count_plot_tagged_high);
         
         for (TH1* count_plot: count_plot_vector) {
-            
-            count_plot->GetXaxis()->SetBinLabel(1, "511");
-            count_plot->GetXaxis()->SetBinLabel(2, "521");
-            count_plot->GetXaxis()->SetBinLabel(3, "531");
-            count_plot->GetXaxis()->SetBinLabel(4, "541");
-            count_plot->GetXaxis()->SetBinLabel(5, "5122");
-            count_plot->GetXaxis()->SetBinLabel(6, "5132");
-            count_plot->GetXaxis()->SetBinLabel(7, "5232");
-            count_plot->GetXaxis()->SetBinLabel(8, "5332");
-            count_plot->GetXaxis()->SetBinLabel(9, "5142");
-            count_plot->GetXaxis()->SetBinLabel(10, "5242");
+            auto counter = 1;
+            for (int hadron: b_hadrons) {
+                char const *pchar = std::to_string(hadron).c_str();
+                count_plot->GetXaxis()->SetBinLabel(counter, pchar);
+                counter+=1;
+            }
         }
         
     }
@@ -539,21 +530,17 @@ void simple_tag_proportions::hadron_count_plot() {
         count_plot_vector.push_back(Hadron_count_plot_tagged_high);
         
         for (TH1* count_plot: count_plot_vector) {
-            
-            count_plot->GetXaxis()->SetBinLabel(1, "411");
-            count_plot->GetXaxis()->SetBinLabel(2, "421");
-            count_plot->GetXaxis()->SetBinLabel(3, "431");
-            count_plot->GetXaxis()->SetBinLabel(4, "4122");
-            count_plot->GetXaxis()->SetBinLabel(5, "4132");
-            count_plot->GetXaxis()->SetBinLabel(6, "4232");
-            count_plot->GetXaxis()->SetBinLabel(7, "4332");
+            auto counter = 1;
+            for (int hadron: c_hadrons) {
+                char const *pchar = std::to_string(hadron).c_str();
+                count_plot->GetXaxis()->SetBinLabel(counter, pchar);
+                counter+=1;
+            }
         }
+
     }
     
-    TFile * output_file_count_B = new TFile("output_plots_count_B.root", "UPDATE");
-    TFile * output_file_count_C = new TFile("output_plots_count_C.root", "UPDATE");
-    
-    TFile * output_file_count = (hadron_type=="B") ? output_file_count_B : output_file_count_C;
+    TFile * output_file_count = (hadron_type=="B") ? new TFile("output_plots_count_B.root", "UPDATE") : new TFile("output_plots_count_C.root", "UPDATE");
     
     for (float f: totalHadrons) {
         Hadron_count_plot->Fill(f);
