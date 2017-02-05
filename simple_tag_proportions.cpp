@@ -194,7 +194,7 @@ void simple_tag_proportions::Loop(bool write) {
     double xcbins[nbinsc+1] = {20, 60,100,160, 300};
     const int nweights = 11;
     // Histograms for separation between jets and nearest hadrons (Filled by Label method, so must be initialised here)
-    ///WHY DOES THIS HAVE TO BE HERE! 
+    ///WHY DOES THIS HAVE TO BE HERE!
     h_bdR_min = MakePlot("h_b_jet_closest_b_hadron", 50, 0, 2);
     h_bdR_next = MakePlot("h_b_jet_next_closest_b_hadron", 50, 0, 2);
     h_cdR_min = MakePlot("h_c_jet_closest_b_hadron", 50, 0, 2);
