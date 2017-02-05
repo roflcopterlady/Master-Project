@@ -39,17 +39,45 @@ int main() {
     TH1 * plot_B_ALL_PT_L = plot_for_btagging::getPlot(B_ALL, "B_ALL_PT_L");
     TH1 * plot_B_ALL_PT_LT_low = plot_for_btagging::getPlot(B_ALL, "B_ALL_PT_LT_-0.7887");
     TH1 * plot_B_ALL_PT_LT_high = plot_for_btagging::getPlot(B_ALL, "B_ALL_PT_LT_0.4496");
-    TH1 * plot_B_ALL_Ratio = plot_for_btagging::getRatioPlot(plot_B_ALL_PT_LT_low, plot_B_ALL_PT_L, "B_ALL_PT_Ratio");
     
     std::vector<TString> legendsArrayAll = {"ALL", "MV_-0.7887", "MV_0.4496"};
     
-//    //ETA info for all C_hadrons
-//    TH1 * plot_C_ALL_ETA_L = plot_for_btagging::getPlot(C_ALL, "C_ALL_PT_L");
-//    TH1 * plot_C_ALL_ETA_LT_low = plot_for_btagging::getPlot(C_ALL, "C_ALL_PT_LT_-0.7887");
-//    TH1 * plot_C_ALL_ETA_LT_high = plot_for_btagging::getPlot(C_ALL, "C_ALL_PT_LT_0.4496");
-//    TH1 * plot_C_ALL_Ratio = plot_for_btagging::getRatioPlot(plot_C_ALL_PT_LT_low, plot_C_ALL_PT_L, "C_ALL_ETA_Ratio");
+    //PT info for all C_hadrons
+    TH1 * plot_C_ALL_PT_L = plot_for_btagging::getPlot(C_ALL, "C_ALL_PT_L");
+    TH1 * plot_C_ALL_PT_LT_low = plot_for_btagging::getPlot(C_ALL, "C_ALL_PT_LT_-0.7887");
+    TH1 * plot_C_ALL_PT_LT_high = plot_for_btagging::getPlot(C_ALL, "C_ALL_PT_LT_0.4496");
     
-    //std::vector<TString> legendsArrayAll = {"ALL", "MV_-0.7887", "MV_0.4496"};
+    //ETA info for all B_hadrons
+    TH1 * plot_B_ALL_ETA_L = plot_for_btagging::getPlot(B_ALL, "B_ALL_ETA_L");
+    TH1 * plot_B_ALL_ETA_LT_low = plot_for_btagging::getPlot(B_ALL, "B_ALL_ETA_LT_-0.7887");
+    TH1 * plot_B_ALL_ETA_LT_high = plot_for_btagging::getPlot(B_ALL, "B_ALL_ETA_LT_0.4496");
+    
+    //ETA info for all C_hadrons
+    TH1 * plot_C_ALL_ETA_L = plot_for_btagging::getPlot(C_ALL, "C_ALL_ETA_L");
+    TH1 * plot_C_ALL_ETA_LT_low = plot_for_btagging::getPlot(C_ALL, "C_ALL_ETA_LT_-0.7887");
+    TH1 * plot_C_ALL_ETA_LT_high = plot_for_btagging::getPlot(C_ALL, "C_ALL_ETA_LT_0.4496");
+    
+    //PT info for all B_hadrons Efficiency
+    TH1 * plot_B_ALL_PT_Ratio_low = plot_for_btagging::getRatioPlot(plot_B_ALL_PT_LT_low, plot_B_ALL_PT_L, "B_ALL_PT_Efficinecy_-0.7887");
+    TH1 * plot_B_ALL_PT_Ratio_high = plot_for_btagging::getRatioPlot(plot_B_ALL_PT_LT_high, plot_B_ALL_PT_L, "B_ALL_PT_Efficinecy_0.4496");
+    
+    std::vector<TString> legendsArrayEfficiency = {"MV_-0.7887", "MV_0.4496"};
+    
+    //ETA info for all B_hadrons Efficiency
+    TH1 * plot_B_ALL_ETA_Ratio_low = plot_for_btagging::getRatioPlot(plot_B_ALL_ETA_LT_low, plot_B_ALL_ETA_L, "B_ALL_ETA_Efficinecy_-0.7887");
+    TH1 * plot_B_ALL_ETA_Ratio_high = plot_for_btagging::getRatioPlot(plot_B_ALL_ETA_LT_high, plot_B_ALL_ETA_L, "B_ALL_ETA_Efficinecy_0.4496");
+    
+    //PT info for all C_hadrons Efficiency
+    TH1 * plot_C_ALL_PT_Ratio_low = plot_for_btagging::getRatioPlot(plot_C_ALL_PT_LT_low, plot_C_ALL_PT_L, "C_ALL_PT_Efficinecy_-0.7887");
+    TH1 * plot_C_ALL_PT_Ratio_high = plot_for_btagging::getRatioPlot(plot_C_ALL_PT_LT_high, plot_C_ALL_PT_L, "C_ALL_PT_Efficinecy_0.4496");
+    
+    //ETA info for all C_hadrons Efficiency
+    TH1 * plot_C_ALL_ETA_Ratio_low = plot_for_btagging::getRatioPlot(plot_C_ALL_ETA_LT_low, plot_C_ALL_ETA_L, "C_ALL_ETA_Efficinecy_-0.7887");
+    TH1 * plot_C_ALL_ETA_Ratio_high = plot_for_btagging::getRatioPlot(plot_C_ALL_ETA_LT_high, plot_C_ALL_ETA_L, "C_ALL_ETA_Efficinecy_0.4496");
+    
+    //PT info for all C_hadrons Efficiency
+    TH1 * plot_C_ALL_Ratio_low = plot_for_btagging::getRatioPlot(plot_C_ALL_PT_LT_low, plot_C_ALL_PT_L, "C_ALL_PT_Efficinecy_-0.7887");
+    TH1 * plot_C_ALL_Ratio_high = plot_for_btagging::getRatioPlot(plot_C_ALL_PT_LT_high, plot_C_ALL_PT_L, "C_ALL_PT_Efficinecy_0.4496");
     
     //Histograms of B hadron counts
     TH1 * plot_B_ALL_Count = plot_for_btagging::getPlot(B_COUNT, "B_Hadron_count");
@@ -75,9 +103,21 @@ int main() {
 //                                    "ALL",
 //                                    "Tagged by MV_-0.7887");
     
-    plot_for_btagging::overlayNPlots("PT: All B hadrons labeled and Tagged by different MV2C20 cutoffs", legendsArrayAll,plot_B_ALL_PT_L, plot_B_ALL_PT_LT_low, plot_B_ALL_PT_LT_high, NULL);
+    plot_for_btagging::overlayNPlots("PT: All B hadrons - Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll,plot_B_ALL_PT_L, plot_B_ALL_PT_LT_low, plot_B_ALL_PT_LT_high, NULL);
     
-//    plot_for_btagging::overlayNPlots("ETA: All C hadrons labeled and Tagged by different MV2C20 cutoffs", legendsArrayAll,plot_C_ALL_ETA_L, plot_C_ALL_ETA_LT_low, plot_C_ALL_ETA_LT_high, NULL);
+    plot_for_btagging::overlayNPlots("PT: All C hadrons - Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll,plot_C_ALL_PT_L, plot_C_ALL_PT_LT_low, plot_C_ALL_PT_LT_high, NULL);
+    
+    plot_for_btagging::overlayNPlots("ETA: All B hadrons - Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll,plot_B_ALL_ETA_L, plot_B_ALL_ETA_LT_low, plot_B_ALL_ETA_LT_high, NULL);
+    
+    plot_for_btagging::overlayNPlots("ETA: All C hadrons - Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll,plot_C_ALL_ETA_L, plot_C_ALL_ETA_LT_low, plot_C_ALL_ETA_LT_high, NULL);
+    
+    plot_for_btagging::overlayNPlots("PT: All B hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_ALL_PT_Ratio_low, plot_B_ALL_PT_Ratio_high, NULL);
+    
+    plot_for_btagging::overlayNPlots("ETA: All B hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_ALL_ETA_Ratio_low, plot_B_ALL_ETA_Ratio_high, NULL);
+    
+    plot_for_btagging::overlayNPlots("PT: All C hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_ALL_PT_Ratio_low, plot_C_ALL_PT_Ratio_high, NULL);
+    
+    plot_for_btagging::overlayNPlots("ETA: All C hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_ALL_ETA_Ratio_low, plot_C_ALL_ETA_Ratio_high, NULL);
     
      plot_for_btagging::overlayNPlots("Rate: All B hadrons Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll, plot_B_ALL_Count, plot_B_ALL_low_Count, plot_B_ALL_high_Count, NULL);
     
