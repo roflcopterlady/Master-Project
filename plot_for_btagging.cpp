@@ -35,29 +35,53 @@ int main() {
     TH1 * plot_B_511_PT_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_PT_LT_-0.788700");
     TH1 * plot_B_511_PT_Ratio = plot_for_btagging::getRatioPlot(plot_B_511_PT_LT_low, plot_B_511_PT_L, "B_511_PT_Ratio");
     
-    //PT infor for all B_hadrons
+    //PT info for all B_hadrons
     TH1 * plot_B_ALL_PT_L = plot_for_btagging::getPlot(B_ALL, "B_ALL_PT_L");
     TH1 * plot_B_ALL_PT_LT_low = plot_for_btagging::getPlot(B_ALL, "B_ALL_PT_LT_-0.7887");
+    TH1 * plot_B_ALL_PT_LT_high = plot_for_btagging::getPlot(B_ALL, "B_ALL_PT_LT_0.4496");
     TH1 * plot_B_ALL_Ratio = plot_for_btagging::getRatioPlot(plot_B_ALL_PT_LT_low, plot_B_ALL_PT_L, "B_ALL_PT_Ratio");
     
-    //Histograms of hadron counts
+    std::vector<TString> legendsArrayAll = {"ALL", "MV_-0.7887", "MV_0.4496"};
+    
+//    //ETA info for all C_hadrons
+//    TH1 * plot_C_ALL_ETA_L = plot_for_btagging::getPlot(C_ALL, "C_ALL_PT_L");
+//    TH1 * plot_C_ALL_ETA_LT_low = plot_for_btagging::getPlot(C_ALL, "C_ALL_PT_LT_-0.7887");
+//    TH1 * plot_C_ALL_ETA_LT_high = plot_for_btagging::getPlot(C_ALL, "C_ALL_PT_LT_0.4496");
+//    TH1 * plot_C_ALL_Ratio = plot_for_btagging::getRatioPlot(plot_C_ALL_PT_LT_low, plot_C_ALL_PT_L, "C_ALL_ETA_Ratio");
+    
+    //std::vector<TString> legendsArrayAll = {"ALL", "MV_-0.7887", "MV_0.4496"};
+    
+    //Histograms of B hadron counts
     TH1 * plot_B_ALL_Count = plot_for_btagging::getPlot(B_COUNT, "B_Hadron_count");
     TH1 * plot_B_ALL_low_Count = plot_for_btagging::getPlot(B_COUNT, "B_Hadron_count_mv_low");
+    TH1 * plot_B_ALL_high_Count = plot_for_btagging::getPlot(B_COUNT, "B_Hadron_count_mv_high");
     
+    //Histograms of C hadron counts
+    TH1 * plot_C_ALL_Count = plot_for_btagging::getPlot(C_COUNT, "C_Hadron_count");
+    TH1 * plot_C_ALL_low_Count = plot_for_btagging::getPlot(C_COUNT, "C_Hadron_count_mv_low");
+    TH1 * plot_C_ALL_high_Count = plot_for_btagging::getPlot(C_COUNT, "C_Hadron_count_mv_high");
+
+    //Results page
     TFile * output_file = new TFile("RESULTS.root", "UPDATE");
     
     output_file->cd();
-    plot_B_511_PT_Ratio->Write();
-    plot_B_ALL_Ratio->Write();
     
-    plot_for_btagging::overlayPlots(plot_B_511_PT_Ratio, plot_B_ALL_Ratio,
-                                    "All B hadrons and B_511 PT ratios for MV_-0.7887" ,
-                                    "B_511_PT: LT to L ratio",
-                                    "B_ALL_PT: LT to L ratio");
-    plot_for_btagging::overlayPlots(plot_B_ALL_Count, plot_B_ALL_low_Count,
-                                    "All B hadrons count for MV_-0.7887" ,
-                                    "ALL",
-                                    "Tagged by MV_-0.7887");
+//    plot_for_btagging::overlayPlots(plot_B_511_PT_Ratio, plot_B_ALL_Ratio,
+//                                    "All B hadrons and B_511 PT ratios for MV_-0.7887" ,
+//                                    "B_511_PT: LT to L ratio",
+//                                    "B_ALL_PT: LT to L ratio");
+//    plot_for_btagging::overlayPlots(plot_B_ALL_Count, plot_B_ALL_low_Count,
+//                                    "All B hadrons count for MV_-0.7887" ,
+//                                    "ALL",
+//                                    "Tagged by MV_-0.7887");
+    
+    plot_for_btagging::overlayNPlots("PT: All B hadrons labeled and Tagged by different MV2C20 cutoffs", legendsArrayAll,plot_B_ALL_PT_L, plot_B_ALL_PT_LT_low, plot_B_ALL_PT_LT_high, NULL);
+    
+//    plot_for_btagging::overlayNPlots("ETA: All C hadrons labeled and Tagged by different MV2C20 cutoffs", legendsArrayAll,plot_C_ALL_ETA_L, plot_C_ALL_ETA_LT_low, plot_C_ALL_ETA_LT_high, NULL);
+    
+     plot_for_btagging::overlayNPlots("Rate: All B hadrons Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll, plot_B_ALL_Count, plot_B_ALL_low_Count, plot_B_ALL_high_Count, NULL);
+    
+    plot_for_btagging::overlayNPlots("Rate: All C hadrons Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll, plot_C_ALL_Count, plot_C_ALL_low_Count, plot_C_ALL_high_Count, NULL);
     
     output_file->Close();
     
@@ -82,37 +106,12 @@ void plot_for_btagging::overlayPlots(TH1* plot1, TH1* plot2, TString plotName, T
     plot2_clone->SetLineColor(4);
     plot2_clone->DrawCopy("same");
     legend->Draw();
-    
-    //colour = kRed , kBlue
-    
-    //c->Print("Overlays/"+plotname+".eps");
+
     c->Write();
     c->Update();
 }
 
-void plot_for_btagging::ratioPlots(TH1* plot1, TH1* plot2, TString plotName) {
-    
-    TH1 * ratio = (TH1F*) plot1->Clone();
-    ratio->SetTitle(plotName);
-    ratio->SetName(plotName);
-    ratio->Divide(plot2);
-    ratio->Write();
-}
-
-
-TH1* plot_for_btagging::getPlot(TString fileName, TString plotName) {
-    
-    TFile * f = new TFile(fileName, "READ");
-    f->cd();
-    TH1 * plot = (TH1F*)gDirectory->Get(plotName);
-    plot->SetDirectory(0);
-    plot->SetStats(0);
-    f->Close();
-    
-    return plot;
-}
-
-void plot_for_btagging::overlayNPlots(TString plotName, TH1* plot1,...) {
+void plot_for_btagging::overlayNPlots(TString plotName, std::vector<TString> legendsVector, TH1* plot1,...) {
     
     std::vector<TH1*> clonePlotArray;
     
@@ -136,6 +135,11 @@ void plot_for_btagging::overlayNPlots(TString plotName, TH1* plot1,...) {
     
     va_end(list);
     
+    TLegend * legend = new TLegend(0.8,0.8,1,1, "", "NDC");
+    for (int i=0; i<legendsVector.size(); i++) {
+        legend->AddEntry(clonePlotArray.at(i), legendsVector.at(i), "LEP");
+    }
+    
     TCanvas * c = new TCanvas();
     
     int colourCounter = 1;
@@ -143,15 +147,18 @@ void plot_for_btagging::overlayNPlots(TString plotName, TH1* plot1,...) {
     for (TH1* histogram: clonePlotArray) {
         
         if (colourCounter == 1) {
+            histogram->SetLineColor(colourCounter);
             histogram->DrawCopy();
         }
         else {
+            histogram->SetLineColor(colourCounter);
             histogram->DrawCopy("same");
         }
         
-        histogram->SetLineColor(colourCounter);
         colourCounter+=1;
     }
+    
+    legend->Draw();
     
     c->Write();
     c->Update();
@@ -164,4 +171,26 @@ TH1* plot_for_btagging::getRatioPlot(TH1* plot1, TH1* plot2, TString plotName) {
     ratio->SetName(plotName);
     ratio->Divide(plot1,plot2,1,1, "B");
     return ratio;
+}
+
+void plot_for_btagging::ratioPlots(TH1* plot1, TH1* plot2, TString plotName) {
+    
+    TH1 * ratio = (TH1F*) plot1->Clone();
+    ratio->SetTitle(plotName);
+    ratio->SetName(plotName);
+    ratio->Divide(plot2);
+    ratio->Write();
+}
+
+
+TH1* plot_for_btagging::getPlot(TString fileName, TString plotName) {
+    
+    TFile * f = new TFile(fileName, "READ");
+    f->cd();
+    TH1 * plot = (TH1F*)gDirectory->Get(plotName);
+    plot->SetDirectory(0);
+    plot->SetStats(0);
+    f->Close();
+    
+    return plot;
 }
