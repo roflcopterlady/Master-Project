@@ -102,7 +102,7 @@ class simple_tag_proportions {
     virtual Long64_t LoadTree(Long64_t entry);
     virtual void     Init(TTree *tree);
     
-    virtual void Loop();
+    virtual void Loop(bool write);
     
     //virtual void overlayPlots(TH1* plot1, TH1* plot2, TString parameter);
    // void overlayNPlots(std::vector<TH1*> plotArray, TString plotName);
