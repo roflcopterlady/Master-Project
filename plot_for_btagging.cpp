@@ -227,12 +227,43 @@ int main() {
     TH1 * plot_C_ALL_Count = plot_for_btagging::getPlot(C_COUNT, "C_Hadron_count");
     TH1 * plot_C_ALL_low_Count = plot_for_btagging::getPlot(C_COUNT, "C_Hadron_count_mv_low");
     TH1 * plot_C_ALL_high_Count = plot_for_btagging::getPlot(C_COUNT, "C_Hadron_count_mv_high");
+    
+    //Labeled momentum
+    TH1 * plot_B_511_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_PT_RATIO_L");
+    TH1 * plot_B_521_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_521_PT_RATIO_L");
+    TH1 * plot_B_531_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_531_PT_RATIO_L");
+    TH1 * plot_B_541_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_541_PT_RATIO_L");
+    TH1 * plot_B_5122_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_5122_PT_RATIO_L");
+    
+    TH1 * plot_C_411_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "C_411_PT_RATIO_L");
+    TH1 * plot_C_421_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "C_421_PT_RATIO_L");
+    TH1 * plot_C_431_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "C_431_PT_RATIO_L");
+    TH1 * plot_C_441_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "C_441_PT_RATIO_L");
+    TH1 * plot_C_4122_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "C_4122_PT_RATIO_L");
+    
+    std::vector<TString> legends_B_hadrons = {"511", "521", "531", "541", "5122"};
+    std::vector<TString> legends_C_hadrons = {"411", "421", "431", "441", "4122"};
 
+//    *************************************************************
+//    
+//    *************************************************************
+//    
+//    *************************************************************
+    
     //Results files
     TFile * output_file = new TFile("ALL_H_RESULTS.root", "UPDATE");
     TFile * output_file_B = new TFile("B_RESULTS.root", "UPDATE");
     TFile * output_file_C = new TFile("C_RESULTS.root", "UPDATE");
     TFile * output_file_rate = new TFile("H_PRODUCTION_RATE.root", "UPDATE");
+    TFile * output_file_pt_ratio = new TFile("MOMENTUM_RATIO.root", "UPDATE");
+    
+    output_file_pt_ratio->cd();
+    
+    plot_for_btagging::overlayNPlots("Hadron to jet momentum_B: 511, 521, 531, 541 and 5122", legends_B_hadrons, plot_B_511_PT_RATIO_L, plot_B_521_PT_RATIO_L, plot_B_531_PT_RATIO_L, plot_B_541_PT_RATIO_L, plot_B_5122_PT_RATIO_L, NULL);
+    
+    plot_for_btagging::overlayNPlots("Hadron to jet momentum_C: 411, 421, 431, 441 and 4122", legends_C_hadrons, plot_C_411_PT_RATIO_L, plot_C_421_PT_RATIO_L, plot_C_431_PT_RATIO_L, plot_C_441_PT_RATIO_L, plot_C_4122_PT_RATIO_L, NULL);
+    
+    output_file_pt_ratio->Close();
     
     output_file_rate->cd();
     

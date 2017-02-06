@@ -34,7 +34,7 @@ float mv_value;
 bool first_time_title = true;
 bool loop_hadron = true;
 
-string hadron_type = "C";
+string hadron_type = "B";
 
 
 std::vector<float> countOfB_Hadrons;
@@ -228,6 +228,8 @@ void simple_tag_proportions::Loop(bool write) {
     TH1 * plot_phi_labled_tagged;
     TH1 * plot_dR_labled;
     TH1 * plot_dR_labled_tagged;
+    TH1 * plot_pt_ratio_labled;
+    TH1 * plot_pt_ratio_labled_tagged;
     
     if (write) {
         plotMV2C20 = MakePlot("plotMV2C20", 50, -1, 1);
@@ -243,6 +245,9 @@ void simple_tag_proportions::Loop(bool write) {
         
         plot_dR_labled = MakePlot(hadron_type+"_"+std::to_string(hadron_number)+"_"+"DR"+"_"+"L", 100, 0, 1);
         plot_dR_labled_tagged = MakePlot(hadron_type+"_"+std::to_string(hadron_number)+"_"+"DR"+"_"+"LT"+"_"+std::to_string(mv_value), 100, 0, 1);
+        
+        plot_pt_ratio_labled = MakePlot(hadron_type+"_"+std::to_string(hadron_number)+"_"+"PT_RATIO"+"_"+"L", 100, 0, 1);
+        plot_pt_ratio_labled_tagged = MakePlot(hadron_type+"_"+std::to_string(hadron_number)+"_"+"PT_RATIO"+"_"+"LT"+"_"+std::to_string(mv_value), 100, 0, 1);
     }
     
     //Get number of entries, and loop across all entries
@@ -291,6 +296,8 @@ void simple_tag_proportions::Loop(bool write) {
             const float PT = (*jet_pT)[ijet];
             const float eta = (*jet_eta)[ijet];
             const float phi = (*jet_phi)[ijet];
+            const float h_pt = (*mchfpart_pt)[ijet];
+            const float pt_ratio = h_pt/PT;
             
             inside_pTAllB.push_back(PT);
             inside_etaAllB.push_back(eta);
@@ -298,7 +305,7 @@ void simple_tag_proportions::Loop(bool write) {
             //Iterate total number of jets if label hadron matches one being examined, and number of tagged jets if MV2C20 above cut.
             //LABLED JETS
             if (hlabel == hadron_number) {
-                
+               
                 pTAllB_labeled.push_back(PT);
                 etaAllB_labeled.push_back(eta);
                 
@@ -331,6 +338,7 @@ void simple_tag_proportions::Loop(bool write) {
                 plot_eta_labled->Fill(eta);
                 plot_phi_labled->Fill(phi);
                 plot_dR_labled->Fill(dR);
+                plot_pt_ratio_labled->Fill(pt_ratio);
                 
                 total_jets++;
                 
@@ -344,6 +352,7 @@ void simple_tag_proportions::Loop(bool write) {
                     plot_eta_labled_tagged->Fill(eta);
                     plot_phi_labled_tagged->Fill(phi);
                     plot_dR_labled_tagged->Fill(dR);
+                    plot_pt_ratio_labled_tagged->Fill(pt_ratio);
                     
                 }
                 
@@ -406,6 +415,9 @@ void simple_tag_proportions::Loop(bool write) {
         
         plot_eta_labled->Write();
         plot_eta_labled_tagged->Write();
+        
+        plot_pt_ratio_labled->Write();
+        plot_pt_ratio_labled_tagged->Write();
         
         output_file->Close();
     }
