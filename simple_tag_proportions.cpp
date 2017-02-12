@@ -66,6 +66,8 @@ float maxPhi = std::numeric_limits<float>::min();
 float minPhi = std::numeric_limits<float>::max();
 float maxDr = std::numeric_limits<float>::min();
 float minDr = std::numeric_limits<float>::max();
+//float maxh_loc = std::numeric_limits<float>::min();
+//float minh_loc = std::numeric_limits<float>::max();
 
 //Get hadron count
 std::map<float, int> Hadron_count_map;
@@ -89,7 +91,7 @@ int main(int argc, char* argv[]) {
      FixedCutBEff_90 	-0.9185 	90.17 	72.89 	1.95 	2.14 	9.27
      */
     
-    sample = "output.root"; //187005";
+    sample = "/home/oriana/scratch/code/output2.root"; //187005";
     if(argc>1) sample = argv[1];
     cout<<"Using sample "<<sample<<endl;
     simple_tag_proportions * a = new simple_tag_proportions(sample);
@@ -122,6 +124,7 @@ int main(int argc, char* argv[]) {
     cout<<"MaxPhi: "<<maxPhi<<" MinPhi: "<<minPhi<<endl;
     
     cout<<"MaxDr: "<<maxDr<<" MinDr: "<<minDr<<endl;
+    //    cout<<"Max h_loc: "<<maxh_loc<<" Min h_loc:"<<minh_loc<<endl;
     
     //Getting the hadron count for TGraph.
     for (float number: countOfB_Hadrons) {
@@ -230,6 +233,7 @@ void simple_tag_proportions::Loop(bool write) {
     TH1 * plot_dR_labled_tagged;
     TH1 * plot_pt_ratio_labled;
     TH1 * plot_pt_ratio_labled_tagged;
+    TH1 * plot_h_location;
     
     if (write) {
         plotMV2C20 = MakePlot("plotMV2C20", 50, -1, 1);
@@ -248,6 +252,8 @@ void simple_tag_proportions::Loop(bool write) {
         
         plot_pt_ratio_labled = MakePlot(hadron_type+"_"+std::to_string(hadron_number)+"_"+"PT_RATIO"+"_"+"L", 100, 0, 1);
         plot_pt_ratio_labled_tagged = MakePlot(hadron_type+"_"+std::to_string(hadron_number)+"_"+"PT_RATIO"+"_"+"LT"+"_"+std::to_string(mv_value), 100, 0, 1);
+
+	plot_h_location = MakePlot(hadron_type+"_"+std::to_string(hadron_number)+"_"+"H_LOC IN JET"+"_"+"LT"+"_"+std::to_string(mv_value), 100, 0, 1);
     }
     
     //Get number of entries, and loop across all entries
@@ -269,14 +275,14 @@ void simple_tag_proportions::Loop(bool write) {
             
             //veto jets that are close together:
             bool veto = false;
-            float dR;
+	     float dR;
             
             for(int j=0; j<(*jet_pT).size(); j++) {
                 if(ijet==j) continue;
                 //	if((*jet_overlap_electron)[j]==1) continue;
                 if( DeltaR( (*jet_eta)[ijet], (*jet_phi)[ijet], (*jet_eta)[j], (*jet_phi)[j]) <0.8) {
                     veto=true;
-                    dR = DeltaR( (*jet_eta)[ijet], (*jet_phi)[ijet], (*jet_eta)[j], (*jet_phi)[j]);
+		     dR = DeltaR( (*jet_eta)[ijet], (*jet_phi)[ijet], (*jet_eta)[j], (*jet_phi)[j]);
                 }
             }
             
@@ -296,9 +302,20 @@ void simple_tag_proportions::Loop(bool write) {
             const float PT = (*jet_pT)[ijet];
             const float eta = (*jet_eta)[ijet];
             const float phi = (*jet_phi)[ijet];
-            const float h_pt = (*mchfpart_pt)[ijet];
-            const float pt_ratio = h_pt/PT;
-            
+	    float pt_ratio = 0;
+	    float h_pt;
+	    float h_location;
+
+	    // Load properties of hadron
+	    if (bh.size()>0){
+	    h_pt = (*mchfpart_pt)[bh.at(0)];
+            pt_ratio = h_pt/PT;
+	    float h_eta = (*mchfpart_eta)[bh.at(0)];
+	    float h_phi = (*mchfpart_phi)[bh.at(0)];
+
+	    // Find distance of hadron from jet centre
+	    h_location = DeltaR( eta, phi, h_eta, h_phi);
+	    }
             inside_pTAllB.push_back(PT);
             inside_etaAllB.push_back(eta);
             
@@ -329,10 +346,13 @@ void simple_tag_proportions::Loop(bool write) {
                 minEta = (eta < minEta) ? eta : minEta;
                 
                 maxPhi = (phi > maxPhi) ? phi : maxPhi;
-                maxPhi = (phi < minPhi) ? phi : minPhi;
+                minPhi = (phi < minPhi) ? phi : minPhi;
                 
                 maxDr = (dR > maxDr) ? dR : maxDr;
-                maxDr = (dR < minDr) ? dR : minDr;
+                minDr = (dR < minDr) ? dR : minDr;
+
+		//maxh_loc = (h_location > maxh_loc) ? h_location : maxh_loc;
+		//minh_loc = (h_location < minh_loc) ? h_location : minh_loc;
                 
                 plot_pt_labled->Fill(PT);
                 plot_eta_labled->Fill(eta);
@@ -353,6 +373,7 @@ void simple_tag_proportions::Loop(bool write) {
                     plot_phi_labled_tagged->Fill(phi);
                     plot_dR_labled_tagged->Fill(dR);
                     plot_pt_ratio_labled_tagged->Fill(pt_ratio);
+		    plot_h_location->Fill(h_location);
                     
                 }
                 
@@ -418,6 +439,8 @@ void simple_tag_proportions::Loop(bool write) {
         
         plot_pt_ratio_labled->Write();
         plot_pt_ratio_labled_tagged->Write();
+
+	plot_h_location->Write();
         
         output_file->Close();
     }
