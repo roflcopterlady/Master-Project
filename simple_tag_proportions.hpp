@@ -146,10 +146,6 @@ class simple_tag_proportions {
     TH1 * h_ntrk_reweight[2];
     TH1 * h_trk_pT_reweight[2];
     
-    TH1 * h_bdR_min;
-    TH1 * h_bdR_next;
-    TH1 * h_cdR_min, * h_cdRc_min;
-    
     TH1 * h_bhadron;
     TH1 * h_mv2c20;
     
@@ -279,7 +275,7 @@ void simple_tag_proportions::Init(TTree *tree)
     fChain->SetBranchAddress("jet_eta", &jet_eta, &b_jet_eta);
     fChain->SetBranchAddress("jet_phi", &jet_phi, &b_jet_phi);
     fChain->SetBranchAddress("jet_m", &jet_m, &b_jet_m);
-    fChain->SetBranchAddress("jet_MV2c10", &jet_MV2c20, &b_jet_MV2c20);
+    fChain->SetBranchAddress("jet_MV2c20", &jet_MV2c20, &b_jet_MV2c20);
     fChain->SetBranchAddress("mchfpart_pt", &mchfpart_pt, &b_mchfpart_pt);
     fChain->SetBranchAddress("mchfpart_eta", &mchfpart_eta, &b_mchfpart_eta);
     fChain->SetBranchAddress("mchfpart_phi", &mchfpart_phi, &b_mchfpart_phi);
@@ -474,31 +470,6 @@ std::pair<int, int> simple_tag_proportions::Label(float eta, float phi, float mv
         
     }//loop over hf hadrons
     
-    if(ch.size()>0) {
-        std::sort(cjet_dR.begin(), cjet_dR.end() );
-        h_cdR_min->Fill(dRminbc);
-        //		h_cdR_cdR_min->Fill(dRminbc, cjet_dR[0]);
-        for(int itag=0; itag<4; itag++) {
-            if(mv1 > tag[itag] ) {
-                //h_tagged_cdR_min[itag]->Fill(dRminbc);
-            }
-        }
-    }
-    if(bjet_dR.size()>0) {
-        std::sort(bjet_dR.begin(), bjet_dR.end() );
-        h_bdR_min->Fill(bjet_dR[0]);
-        if(bjet_dR.size()>1) h_bdR_next->Fill(bjet_dR[1]);
-    }
-    if(bh.size()>0) {
-        if(dRminb<0.7) return std::make_pair(0,0);
-        return std::make_pair(5, abs( (*mchfpart_pdgid)[bh[0]] ) );
-    }
-    else if(ch.size()>0) {
-        h_cdRc_min->Fill(dRminc);
-        if(dRminc<0.7) return std::make_pair(0,0);
-        return std::make_pair(4, abs( (*mchfpart_pdgid)[ch[0]] ) );
-    }
-    return std::make_pair(0,0);
 }
 
 

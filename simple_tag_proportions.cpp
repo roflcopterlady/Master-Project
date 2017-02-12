@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
      FixedCutBEff_90 	-0.9185 	90.17 	72.89 	1.95 	2.14 	9.27
      */
     
-    sample = "/home/oriana/scratch/code/output2.root"; //187005";
+    sample = "/home/oriana/scratch/code/output.root"; //187005";
     if(argc>1) sample = argv[1];
     cout<<"Using sample "<<sample<<endl;
     simple_tag_proportions * a = new simple_tag_proportions(sample);
@@ -195,14 +195,7 @@ void simple_tag_proportions::Loop(bool write) {
     
     double xbins[nbins+1] = {20, 60,100,140,180,270, 400, 700};
     double xcbins[nbinsc+1] = {20, 60,100,160, 300};
-    const int nweights = 11;
-    // Histograms for separation between jets and nearest hadrons (Filled by Label method, so must be initialised here)
-    ///WHY DOES THIS HAVE TO BE HERE!
-    h_bdR_min = MakePlot("h_b_jet_closest_b_hadron", 50, 0, 2);
-    h_bdR_next = MakePlot("h_b_jet_next_closest_b_hadron", 50, 0, 2);
-    h_cdR_min = MakePlot("h_c_jet_closest_b_hadron", 50, 0, 2);
-    h_cdRc_min = MakePlot("h_c_jet_closest_c_hadron", 50, 0, 2);
-    
+    const int nweights = 11;    
     
     ///Plot naming convention
     //HadronFamily_HadronNumber_Property_Labelled/LabelledAndTagged_MV2C20Value
@@ -274,15 +267,12 @@ void simple_tag_proportions::Loop(bool write) {
         for(int ijet=0; ijet< (*jet_pT).size(); ijet++) { ///.size if the length of the coloumn -> the number fo jets
             
             //veto jets that are close together:
-            bool veto = false;
-	     float dR;
-            
+            bool veto = false;            
             for(int j=0; j<(*jet_pT).size(); j++) {
                 if(ijet==j) continue;
                 //	if((*jet_overlap_electron)[j]==1) continue;
                 if( DeltaR( (*jet_eta)[ijet], (*jet_phi)[ijet], (*jet_eta)[j], (*jet_phi)[j]) <0.8) {
                     veto=true;
-		     dR = DeltaR( (*jet_eta)[ijet], (*jet_phi)[ijet], (*jet_eta)[j], (*jet_phi)[j]);
                 }
             }
             
@@ -348,16 +338,12 @@ void simple_tag_proportions::Loop(bool write) {
                 maxPhi = (phi > maxPhi) ? phi : maxPhi;
                 minPhi = (phi < minPhi) ? phi : minPhi;
                 
-                maxDr = (dR > maxDr) ? dR : maxDr;
-                minDr = (dR < minDr) ? dR : minDr;
-
-		//maxh_loc = (h_location > maxh_loc) ? h_location : maxh_loc;
+		// maxh_loc = (h_location > maxh_loc) ? h_location : maxh_loc;
 		//minh_loc = (h_location < minh_loc) ? h_location : minh_loc;
                 
                 plot_pt_labled->Fill(PT);
                 plot_eta_labled->Fill(eta);
                 plot_phi_labled->Fill(phi);
-                plot_dR_labled->Fill(dR);
                 plot_pt_ratio_labled->Fill(pt_ratio);
                 
                 total_jets++;
@@ -371,7 +357,6 @@ void simple_tag_proportions::Loop(bool write) {
                     plot_pt_labled_tagged->Fill(PT);
                     plot_eta_labled_tagged->Fill(eta);
                     plot_phi_labled_tagged->Fill(phi);
-                    plot_dR_labled_tagged->Fill(dR);
                     plot_pt_ratio_labled_tagged->Fill(pt_ratio);
 		    plot_h_location->Fill(h_location);
                     
