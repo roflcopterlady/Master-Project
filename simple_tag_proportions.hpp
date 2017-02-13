@@ -275,7 +275,7 @@ void simple_tag_proportions::Init(TTree *tree)
     fChain->SetBranchAddress("jet_eta", &jet_eta, &b_jet_eta);
     fChain->SetBranchAddress("jet_phi", &jet_phi, &b_jet_phi);
     fChain->SetBranchAddress("jet_m", &jet_m, &b_jet_m);
-    fChain->SetBranchAddress("jet_MV2c20", &jet_MV2c20, &b_jet_MV2c20);
+    fChain->SetBranchAddress("jet_MV2c10", &jet_MV2c20, &b_jet_MV2c20);
     fChain->SetBranchAddress("mchfpart_pt", &mchfpart_pt, &b_mchfpart_pt);
     fChain->SetBranchAddress("mchfpart_eta", &mchfpart_eta, &b_mchfpart_eta);
     fChain->SetBranchAddress("mchfpart_phi", &mchfpart_phi, &b_mchfpart_phi);

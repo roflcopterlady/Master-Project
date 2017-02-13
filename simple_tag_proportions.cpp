@@ -42,7 +42,7 @@ std::vector<float> countOfB_HadronsUseful;
 
 int hadronCounter = 1;
 
-//Vector for properties of entier family
+//Vector for properties of entire family
 
 bool onceMV = true;
 
@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
      FixedCutBEff_90 	-0.9185 	90.17 	72.89 	1.95 	2.14 	9.27
      */
     
-    sample = "/home/oriana/scratch/code/output.root"; //187005";
+    sample = "/home/oriana/scratch/code/output2.root"; //187005";
     if(argc>1) sample = argv[1];
     cout<<"Using sample "<<sample<<endl;
     simple_tag_proportions * a = new simple_tag_proportions(sample);
@@ -201,7 +201,7 @@ void simple_tag_proportions::Loop(bool write) {
     //HadronFamily_HadronNumber_Property_Labelled/LabelledAndTagged_MV2C20Value
     //HadronFamily:                 B or C
     //HadronNumber:                 Check utils.hpp
-    //Property:                     PT or ETA or DR
+    //Property:                     PT or ETA or H_LOC
     //Labelled/LabelledAndTagged:   L or LT
     //MV2C20Value:                  Check utils.hpp or empty
     
@@ -246,7 +246,7 @@ void simple_tag_proportions::Loop(bool write) {
         plot_pt_ratio_labled = MakePlot(hadron_type+"_"+std::to_string(hadron_number)+"_"+"PT_RATIO"+"_"+"L", 100, 0, 1);
         plot_pt_ratio_labled_tagged = MakePlot(hadron_type+"_"+std::to_string(hadron_number)+"_"+"PT_RATIO"+"_"+"LT"+"_"+std::to_string(mv_value), 100, 0, 1);
 
-	plot_h_location = MakePlot(hadron_type+"_"+std::to_string(hadron_number)+"_"+"H_LOC IN JET"+"_"+"LT"+"_"+std::to_string(mv_value), 100, 0, 1);
+	plot_h_location = MakePlot(hadron_type+"_"+std::to_string(hadron_number)+"_"+"H_LOC IN JET"+"_"+"LT"+"_"+std::to_string(mv_value), 100, -1, 1);
     }
     
     //Get number of entries, and loop across all entries
@@ -306,6 +306,7 @@ void simple_tag_proportions::Loop(bool write) {
 	    // Find distance of hadron from jet centre
 	    h_location = DeltaR( eta, phi, h_eta, h_phi);
 	    }
+	    
             inside_pTAllB.push_back(PT);
             inside_etaAllB.push_back(eta);
             
@@ -345,6 +346,7 @@ void simple_tag_proportions::Loop(bool write) {
                 plot_eta_labled->Fill(eta);
                 plot_phi_labled->Fill(phi);
                 plot_pt_ratio_labled->Fill(pt_ratio);
+		//plot_h_location->Fill(h_location);
                 
                 total_jets++;
                 
