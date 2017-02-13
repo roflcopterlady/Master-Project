@@ -176,6 +176,11 @@ int main() {
     
     //PT info for all B_hadrons
     TH1 * plot_B_ALL_PT_L = plot_for_btagging::getPlot(B_ALL, "B_ALL_PT_L");
+    
+//    TH1 * plot_B_ALL_PT_L_MOST = plot_for_btagging::getPlot(B_ALL, "B_ALL_PT_L_MOST");
+//    
+//    std::vector<TString> mostAll = {"most", "all"};
+    
     TH1 * plot_B_ALL_PT_LT_low = plot_for_btagging::getPlot(B_ALL, "B_ALL_PT_LT_-0.7887");
     TH1 * plot_B_ALL_PT_LT_high = plot_for_btagging::getPlot(B_ALL, "B_ALL_PT_LT_0.4496");
     
@@ -222,11 +227,15 @@ int main() {
     TH1 * plot_B_ALL_Count = plot_for_btagging::getPlot(B_COUNT, "B_Hadron_count");
     TH1 * plot_B_ALL_low_Count = plot_for_btagging::getPlot(B_COUNT, "B_Hadron_count_mv_low");
     TH1 * plot_B_ALL_high_Count = plot_for_btagging::getPlot(B_COUNT, "B_Hadron_count_mv_high");
+    TH1 * plot_B_ALL_Count_Ratio_low = plot_for_btagging::getRatioPlot(plot_B_ALL_low_Count, plot_B_ALL_Count, "");
+    TH1 * plot_B_ALL_Count_Ratio_high = plot_for_btagging::getRatioPlot(plot_B_ALL_high_Count, plot_B_ALL_Count, "");
     
     //Histograms of C hadron counts
     TH1 * plot_C_ALL_Count = plot_for_btagging::getPlot(C_COUNT, "C_Hadron_count");
     TH1 * plot_C_ALL_low_Count = plot_for_btagging::getPlot(C_COUNT, "C_Hadron_count_mv_low");
     TH1 * plot_C_ALL_high_Count = plot_for_btagging::getPlot(C_COUNT, "C_Hadron_count_mv_high");
+    TH1 * plot_C_ALL_Count_Ratio_low = plot_for_btagging::getRatioPlot(plot_C_ALL_low_Count, plot_C_ALL_Count, "");
+    TH1 * plot_C_ALL_Count_Ratio_high = plot_for_btagging::getRatioPlot(plot_C_ALL_high_Count, plot_C_ALL_Count, "");
     
     //Labeled momentum
     TH1 * plot_B_511_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_PT_RATIO_L");
@@ -235,20 +244,19 @@ int main() {
     TH1 * plot_B_541_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_541_PT_RATIO_L");
     TH1 * plot_B_5122_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_5122_PT_RATIO_L");
     
-    TH1 * plot_C_411_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "C_411_PT_RATIO_L");
-    TH1 * plot_C_421_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "C_421_PT_RATIO_L");
-    TH1 * plot_C_431_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "C_431_PT_RATIO_L");
-    TH1 * plot_C_441_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "C_441_PT_RATIO_L");
-    TH1 * plot_C_4122_PT_RATIO_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "C_4122_PT_RATIO_L");
+    TH1 * plot_C_411_PT_RATIO_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_411_PT_RATIO_L");
+    TH1 * plot_C_421_PT_RATIO_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_421_PT_RATIO_L");
+    TH1 * plot_C_431_PT_RATIO_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_431_PT_RATIO_L");
+    TH1 * plot_C_4122_PT_RATIO_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_4122_PT_RATIO_L");
     
     std::vector<TString> legends_B_hadrons = {"511", "521", "531", "541", "5122"};
-    std::vector<TString> legends_C_hadrons = {"411", "421", "431", "441", "4122"};
-
-//    *************************************************************
-//    
-//    *************************************************************
-//    
-//    *************************************************************
+    std::vector<TString> legends_C_hadrons = {"411", "421", "431", "4122"};
+    
+    //    *************************************************************
+    //
+    //    *************************************************************
+    //
+    //    *************************************************************
     
     //Results files
     TFile * output_file = new TFile("ALL_H_RESULTS.root", "UPDATE");
@@ -257,23 +265,32 @@ int main() {
     TFile * output_file_rate = new TFile("H_PRODUCTION_RATE.root", "UPDATE");
     TFile * output_file_pt_ratio = new TFile("MOMENTUM_RATIO.root", "UPDATE");
     
+    ///Momentum file
     output_file_pt_ratio->cd();
     
     plot_for_btagging::overlayNPlots("Hadron to jet momentum_B: 511, 521, 531, 541 and 5122", legends_B_hadrons, plot_B_511_PT_RATIO_L, plot_B_521_PT_RATIO_L, plot_B_531_PT_RATIO_L, plot_B_541_PT_RATIO_L, plot_B_5122_PT_RATIO_L, NULL);
     
-    plot_for_btagging::overlayNPlots("Hadron to jet momentum_C: 411, 421, 431, 441 and 4122", legends_C_hadrons, plot_C_411_PT_RATIO_L, plot_C_421_PT_RATIO_L, plot_C_431_PT_RATIO_L, plot_C_441_PT_RATIO_L, plot_C_4122_PT_RATIO_L, NULL);
+    plot_for_btagging::overlayNPlots("Hadron to jet momentum_C: 411, 421, 431 and 4122", legends_C_hadrons, plot_C_411_PT_RATIO_L, plot_C_421_PT_RATIO_L, plot_C_431_PT_RATIO_L, plot_C_4122_PT_RATIO_L, NULL);
     
     output_file_pt_ratio->Close();
     
+    ///Rate file
     output_file_rate->cd();
     
     plot_for_btagging::overlayNPlots("Rate: All B hadrons Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll, plot_B_ALL_Count, plot_B_ALL_low_Count, plot_B_ALL_high_Count, NULL);
     
     plot_for_btagging::overlayNPlots("Rate: All C hadrons Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll, plot_C_ALL_Count, plot_C_ALL_low_Count, plot_C_ALL_high_Count, NULL);
     
+    plot_for_btagging::overlayNPlots("Rate: All B hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_ALL_Count_Ratio_low, plot_B_ALL_Count_Ratio_high, NULL);
+    
+    plot_for_btagging::overlayNPlots("Rate: All C hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_ALL_Count_Ratio_low, plot_C_ALL_Count_Ratio_high, NULL);
+    
     output_file_rate->Close();
     
+    ///All hadron file
     output_file->cd();
+    
+   // plot_for_btagging::overlayNPlots("Most to all comparison", mostAll, plot_B_ALL_PT_L_MOST,plot_B_ALL_PT_L, NULL);
     
     plot_for_btagging::overlayNPlots("PT: All B hadrons - Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll,plot_B_ALL_PT_L, plot_B_ALL_PT_LT_low, plot_B_ALL_PT_LT_high, NULL);
     
@@ -364,7 +381,7 @@ void plot_for_btagging::overlayPlots(TH1* plot1, TH1* plot2, TString plotName, T
     plot2_clone->SetLineColor(4);
     plot2_clone->DrawCopy("same");
     legend->Draw();
-
+    
     c->Write();
     c->Update();
 }
@@ -428,6 +445,7 @@ TH1* plot_for_btagging::getRatioPlot(TH1* plot1, TH1* plot2, TString plotName) {
     ratio->SetTitle(plotName);
     ratio->SetName(plotName);
     ratio->Divide(plot1,plot2,1,1, "B");
+    ratio->SetAxisRange(0, 1, "Y");
     return ratio;
 }
 
@@ -437,6 +455,7 @@ void plot_for_btagging::ratioPlots(TH1* plot1, TH1* plot2, TString plotName) {
     ratio->SetTitle(plotName);
     ratio->SetName(plotName);
     ratio->Divide(plot2);
+    ratio->SetAxisRange(0, 1, "Y");
     ratio->Write();
 }
 
