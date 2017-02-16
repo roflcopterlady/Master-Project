@@ -125,7 +125,7 @@ void simple_tag_proportions::Loop(bool write) {
     TH1 * H_all_PT_tagged_low = MakePlot(hadron_type+"_ALL_PT_LT_-0.7887", 100, 0, 1000);
     TH1 * H_all_PT_tagged_high = MakePlot(hadron_type+"_ALL_PT_LT_0.4496", 100, 0, 1000);
 
-    TH1 * H_all_ETA_labeled = MakePlot(hadron_type+"_ALL_ETA_L_", 100, -3, 3);
+    TH1 * H_all_ETA_labeled = MakePlot(hadron_type+"_ALL_ETA_L", 100, -3, 3);
     TH1 * H_all_ETA_tagged_low = MakePlot(hadron_type+"_ALL_ETA_LT_-0.7887", 100, -3, 3);
     TH1 * H_all_ETA_tagged_high = MakePlot(hadron_type+"_ALL_ETA_LT_0.4496", 100, -3, 3);
 
