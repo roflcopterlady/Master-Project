@@ -47,6 +47,10 @@ float hLoc(float eta1, float phi1, float eta2, float phi2) {
     return hypot(TVector2::Phi_mpi_pi(phi2 - phi1), (eta2 - eta1));
 }
 
+float n_hLoc(float eta1, float phi1, float eta2, float phi2) {
+    return -1*(hypot(TVector2::Phi_mpi_pi(phi1 - phi2), (eta1 - eta2)));
+}
+
 class simple_tag_proportions {
     
     //Can be used anytime we need to differentiate between the two hadron types.
