@@ -24,7 +24,8 @@ using std::cin;
 using std::string;
 using std::ofstream;
 
-string sample;
+string sample = "output3.root";
+
 
 int cut_pos;
 
@@ -47,8 +48,6 @@ float maxPt = std::numeric_limits<float>::min();
 float minPt = std::numeric_limits<float>::max();
 float maxEta = std::numeric_limits<float>::min();
 float minEta = std::numeric_limits<float>::max();
-float maxPhi = std::numeric_limits<float>::min();
-float minPhi = std::numeric_limits<float>::max();
 float maxDr = std::numeric_limits<float>::min();
 float minDr = std::numeric_limits<float>::max();
 
@@ -69,7 +68,6 @@ int main(int argc, char* argv[]) {
     
     ///when using output.root remember that branch name was changed 20->10
     
-    sample = "output.root"; //187005";
     if(argc>1) sample = argv[1];
     cout<<"Using sample "<<sample<<endl;
     simple_tag_proportions * a = new simple_tag_proportions(sample);
@@ -77,9 +75,7 @@ int main(int argc, char* argv[]) {
     //cut_pos used to pick the different MV2C20 values from the file: utils.h
     ///GO UP TO i=10 to plot over all B-Hadrons
     
-    int numberOfHadrons = (hadron_type=="B") ? 10 : 7;
-    
-    cout<<hadron_type<<"_"<<numberOfHadrons<<endl;
+    cout<<"Hadron Type: "+hadron_type<<endl;
     
     a->Loop(true);
     
@@ -93,56 +89,92 @@ void simple_tag_proportions::Loop(bool write) {
     std::vector<float> inside_pTAllB;
     std::vector<float> inside_etaAllB;
     
-    std::vector<TH1 *> B_PT_labeled_hadrons;
-    std::vector<TH1 *> B_PT_tagged_hadrons_low;
-    std::vector<TH1 *> B_PT_tagged_hadrons_high;
+    std::vector<TH1 *> H_PT_labeled_hadrons;
+    std::vector<TH1 *> H_PT_tagged_hadrons_low;
+    std::vector<TH1 *> H_PT_tagged_hadrons_high;
     
     for (float hadron: b_hadrons) {
-        B_PT_labeled_hadrons.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"PT"+"_"+"L", 100, 0, 1000));
-        B_PT_tagged_hadrons_low.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"PT"+"_"+"LT_MV:-0.7887", 100, 0, 1000));
-        B_PT_tagged_hadrons_high.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"PT"+"_"+"LT_MV:0.4496", 100, 0, 1000));
+        H_PT_labeled_hadrons.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"PT"+"_"+"L", 100, 0, 1000));
+        H_PT_tagged_hadrons_low.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"PT"+"_"+"LT_MV:-0.7887", 100, 0, 1000));
+        H_PT_tagged_hadrons_high.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"PT"+"_"+"LT_MV:0.4496", 100, 0, 1000));
     }
     
-    std::vector<TH1 *> B_ETA_labeled_hadrons;
-    std::vector<TH1 *> B_ETA_tagged_hadrons_low;
-    std::vector<TH1 *> B_ETA_tagged_hadrons_high;
+    std::vector<TH1 *> H_ETA_labeled_hadrons;
+    std::vector<TH1 *> H_ETA_tagged_hadrons_low;
+    std::vector<TH1 *> H_ETA_tagged_hadrons_high;
     
     for (float hadron: b_hadrons) {
-        B_ETA_labeled_hadrons.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"ETA"+"_"+"L", 100, -3, 3));
-        B_ETA_tagged_hadrons_low.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"ETA"+"_"+"LT_MV:-0.7887", 100, -3, 3));
-        B_ETA_tagged_hadrons_high.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"ETA"+"_"+"LT_MV:0.4496", 100, -3, 3));
+        H_ETA_labeled_hadrons.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"ETA"+"_"+"L", 100, -3, 3));
+        H_ETA_tagged_hadrons_low.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"ETA"+"_"+"LT_MV:-0.7887", 100, -3, 3));
+        H_ETA_tagged_hadrons_high.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"ETA"+"_"+"LT_MV:0.4496", 100, -3, 3));
     }
     
-    TH1 * B_all_PT_labeled = MakePlot(hadron_type+"_ALL_PT_L_", 100, 0, 1000);
-    TH1 * B_all_PT_tagged_low = MakePlot(hadron_type+"_ALL_PT_LT_-0.7887", 100, 0, 1000);
-    TH1 * B_all_PT_tagged_high = MakePlot(hadron_type+"_ALL_PT_LT_0.4496", 100, 0, 1000);
+    std::vector<TH1 *> H_LOC_labeled_hadrons;
+    std::vector<TH1 *> H_LOC_tagged_hadrons_low;
+    std::vector<TH1 *> H_LOC_tagged_hadrons_high;
     
-    TH1 * B_all_ETA_labeled = MakePlot(hadron_type+"_ALL_ETA_L_", 100, -3, 3);
-    TH1 * B_all_ETA_tagged_low = MakePlot(hadron_type+"_ALL_ETA_LT_-0.7887", 100, -3, 3);
-    TH1 * B_all_ETA_tagged_high = MakePlot(hadron_type+"_ALL_ETA_LT_0.4496", 100, -3, 3);
+    for (float hadron: b_hadrons) {
+        H_LOC_labeled_hadrons.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"LOC"+"_"+"L", 100, -3, 3));
+        H_LOC_tagged_hadrons_low.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"LOC"+"_"+"LT_MV:-0.7887", 100, -3, 3));
+        H_LOC_tagged_hadrons_high.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"LOC"+"_"+"LT_MV:0.4496", 100, -3, 3));
+    }
     
-    float b_hadrons_bins[11] = {0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5};
-    TH1 * Hadron_count_plot = new TH1F("B_Hadron_count", "B_Hadron_count", 10, b_hadrons_bins);
-    TH1 * Hadron_count_plot_tagged_low = new TH1F("B_Hadron_count_mv_low", "B_Hadron_count_mv_low", 10, b_hadrons_bins);
-    TH1 * Hadron_count_plot_tagged_high = new TH1F("B_Hadron_count_mv_high", "B_Hadron_count_mv_high", 10, b_hadrons_bins);
+    TH1 * H_all_PT_labeled = MakePlot(hadron_type+"_ALL_PT_L", 100, 0, 1000);
+    TH1 * H_all_PT_tagged_low = MakePlot(hadron_type+"_ALL_PT_LT_-0.7887", 100, 0, 1000);
+    TH1 * H_all_PT_tagged_high = MakePlot(hadron_type+"_ALL_PT_LT_0.4496", 100, 0, 1000);
     
-    std::vector<TH1*> count_plot_vector;
-    count_plot_vector.push_back(Hadron_count_plot);
-    count_plot_vector.push_back(Hadron_count_plot_tagged_low);
-    count_plot_vector.push_back(Hadron_count_plot_tagged_high);
+    TH1 * H_all_ETA_labeled = MakePlot(hadron_type+"_ALL_ETA_L_", 100, -3, 3);
+    TH1 * H_all_ETA_tagged_low = MakePlot(hadron_type+"_ALL_ETA_LT_-0.7887", 100, -3, 3);
+    TH1 * H_all_ETA_tagged_high = MakePlot(hadron_type+"_ALL_ETA_LT_0.4496", 100, -3, 3);
     
-    for (TH1* count_plot: count_plot_vector) {
-        auto counter = 1;
-        for (int hadron: b_hadrons) {
-            char const *pchar = std::to_string(hadron).c_str();
-            count_plot->GetXaxis()->SetBinLabel(counter, pchar);
-            counter+=1;
+    TH1 * H_count_plot;
+    TH1 * H_count_plot_tagged_low;
+    TH1 * H_count_plot_tagged_high;
+    
+    if (hadron_type=="B") {
+        float b_hadrons_bins[11] = {0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5};
+        H_count_plot = new TH1F("B_Hadron_count", "B_Hadron_count", 10, b_hadrons_bins);
+        H_count_plot_tagged_low = new TH1F("B_Hadron_count_mv_low", "B_Hadron_count_mv_low", 10, b_hadrons_bins);
+        H_count_plot_tagged_high = new TH1F("B_Hadron_count_mv_high", "B_Hadron_count_mv_high", 10, b_hadrons_bins);
+        
+        std::vector<TH1*> count_plot_vector;
+        count_plot_vector.push_back(H_count_plot);
+        count_plot_vector.push_back(H_count_plot_tagged_low);
+        count_plot_vector.push_back(H_count_plot_tagged_high);
+        
+        for (TH1* count_plot: count_plot_vector) {
+            auto counter = 1;
+            for (int hadron: b_hadrons) {
+                char const *pchar = std::to_string(hadron).c_str();
+                count_plot->GetXaxis()->SetBinLabel(counter, pchar);
+                counter+=1;
+            }
+        }
+    }
+    else {
+        float c_hadrons_bins[11] = {0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5};
+        H_count_plot = new TH1F("C_Hadron_count", "C_Hadron_count", 7, c_hadrons_bins);
+        H_count_plot_tagged_low = new TH1F("C_Hadron_count_mv_low", "C_Hadron_count_mv_low", 7, c_hadrons_bins);
+        H_count_plot_tagged_high = new TH1F("C_Hadron_count_mv_high", "C_Hadron_count_mv_high", 7, c_hadrons_bins);
+        
+        std::vector<TH1*> count_plot_vector;
+        count_plot_vector.push_back(H_count_plot);
+        count_plot_vector.push_back(H_count_plot_tagged_low);
+        count_plot_vector.push_back(H_count_plot_tagged_high);
+        
+        for (TH1* count_plot: count_plot_vector) {
+            auto counter = 1;
+            for (int hadron: c_hadrons) {
+                char const *pchar = std::to_string(hadron).c_str();
+                count_plot->GetXaxis()->SetBinLabel(counter, pchar);
+                counter+=1;
+            }
         }
     }
     
-    TH1 * B_ratio_labeled = MakePlot("B_Ratio_L", 100, 0, 1);
-    TH1 * B_ratio_labeled_tagged_low = MakePlot("B_LT_low", 100, 0, 1);
-    TH1 * B_ratio_labeled_tagged_high = MakePlot("B_LT_high", 100, 0, 1);
+    TH1 * H_ratio_labeled = MakePlot(hadron_type+"_Ratio_L", 100, 0, 1);
+    TH1 * H_ratio_labeled_tagged_low = MakePlot(hadron_type+"_LT_low", 100, 0, 1);
+    TH1 * H_ratio_labeled_tagged_high = MakePlot(hadron_type+"_LT_high", 100, 0, 1);
     
     // Get name of generator from input file
     TString generator = "powheg";//sample.substr(13, sample.find(".AOD")-13);
@@ -216,7 +248,6 @@ void simple_tag_proportions::Loop(bool write) {
                 //	if((*jet_overlap_electron)[j]==1) continue;
                 if( DeltaR( (*jet_eta)[ijet], (*jet_phi)[ijet], (*jet_eta)[j], (*jet_phi)[j]) <0.8) {
                     veto=true;
-                    
                 }
             }
             
@@ -238,6 +269,7 @@ void simple_tag_proportions::Loop(bool write) {
             const float phi = (*jet_phi)[ijet];
             float pt_ratio = 0;
             float h_pt;
+            float h_location;
             
             maxPt = (PT > maxPt) ? PT : maxPt;
             minPt = (PT < minPt) ? PT : minPt;
@@ -245,64 +277,89 @@ void simple_tag_proportions::Loop(bool write) {
             maxEta = (eta > maxEta) ? eta : maxEta;
             minEta = (eta < minEta) ? eta : minEta;
             
-            maxDr = (dR > maxDr) ? dR : maxDr;
-            maxDr = (dR < minDr) ? dR : minDr;
+            maxDr = (h_location > maxDr) ? h_location : maxDr;
+            minDr = (h_location < minDr) ? h_location : minDr;
             
-            
-            if (bh.size()>0) {
-                h_pt = (*mchfpart_pt)[bh.at(0)];
+            int sizeArray = (hadron_type=="B") ? bh.size() : ch.size();
+            if (sizeArray>0) {
+                int indexValue = (hadron_type=="B") ? bh.at(0) : ch.at(0);
+                h_pt = (*mchfpart_pt)[indexValue];
                 pt_ratio = h_pt/PT;
+                
+                float h_eta = (*mchfpart_eta)[bh.at(0)];
+                float h_phi = (*mchfpart_phi)[bh.at(0)];
+                h_location = hLoc( eta, phi, h_eta, h_phi);
             }
-            
-            inside_pTAllB.push_back(PT);
-            inside_etaAllB.push_back(eta);
-            
+           
             //Iterate total number of jets if label hadron matches one being examined, and number of tagged jets if MV2C20 above cut.
             //LABLED JETS
             
             bool contains = false;
-            for (float number: b_hadrons) {
-                if (number==hlabel) {
-                    contains = true;
+            if (hadron_type=="B") {
+                for (float number: b_hadrons) {
+                    if (number==hlabel) {
+                        contains = true;
+                    }
+                }
+            }
+            else {
+                for (float number: c_hadrons) {
+                    if (number==hlabel) {
+                        contains = true;
+                    }
                 }
             }
             
             if (contains) {
                 
-                int index = find(b_hadrons.begin(), b_hadrons.end(), hlabel) - b_hadrons.begin();
+                int index;
                 
-                B_all_PT_labeled->Fill(PT);
-                B_all_ETA_labeled->Fill(eta);
-                Hadron_count_plot->Fill(index);
-                B_ratio_labeled->Fill(pt_ratio);
+                if (hadron_type=="B") {
+                    index = find(b_hadrons.begin(), b_hadrons.end(), hlabel) - b_hadrons.begin();
+                }
+                else {
+                    index = find(c_hadrons.begin(), c_hadrons.end(), hlabel) - c_hadrons.begin();
+                    
+                }
                 
-                B_PT_labeled_hadrons[index]->Fill(PT);
-                B_ETA_labeled_hadrons[index]->Fill(eta);
+                H_all_PT_labeled->Fill(PT);
+                H_all_ETA_labeled->Fill(eta);
+                H_count_plot->Fill(index);
+                H_ratio_labeled->Fill(pt_ratio);
+                
+                H_PT_labeled_hadrons[index]->Fill(PT);
+                H_ETA_labeled_hadrons[index]->Fill(eta);
+                
+                H_LOC_labeled_hadrons[index]->Fill(h_location);
                 
                 if (mv>-0.7887) {
-                    B_all_PT_tagged_low->Fill(PT);
-                    B_all_ETA_tagged_low->Fill(eta);
+                    H_all_PT_tagged_low->Fill(PT);
+                    H_all_ETA_tagged_low->Fill(eta);
                     
-                    B_PT_tagged_hadrons_low[index]->Fill(PT);
-                    B_ETA_tagged_hadrons_low[index]->Fill(eta);
+                    H_PT_tagged_hadrons_low[index]->Fill(PT);
+                    H_ETA_tagged_hadrons_low[index]->Fill(eta);
                     
-                    Hadron_count_plot_tagged_low->Fill(index);
+                    H_count_plot_tagged_low->Fill(index);
                     
-                    B_ratio_labeled_tagged_low->Fill(pt_ratio);
+                    H_ratio_labeled_tagged_low->Fill(pt_ratio);
+                    
+                    H_LOC_tagged_hadrons_low[index]->Fill(h_location);
                 }
                 if (mv>0.4496) {
-                    B_all_PT_tagged_high->Fill(PT);
-                    B_all_ETA_tagged_high->Fill(eta);
+                    H_all_PT_tagged_high->Fill(PT);
+                    H_all_ETA_tagged_high->Fill(eta);
                     
-                    B_PT_tagged_hadrons_high[index]->Fill(PT);
-                    B_ETA_tagged_hadrons_high[index]->Fill(eta);
+                    H_PT_tagged_hadrons_high[index]->Fill(PT);
+                    H_ETA_tagged_hadrons_high[index]->Fill(eta);
                     
-                    Hadron_count_plot_tagged_high->Fill(index);
+                    H_count_plot_tagged_high->Fill(index);
                     
-                    B_ratio_labeled_tagged_high->Fill(pt_ratio);
+                    H_ratio_labeled_tagged_high->Fill(pt_ratio);
+                    
+                    H_LOC_tagged_hadrons_high[index]->Fill(h_location);
                 }
             }
-
+            
         }
         
     }
@@ -341,56 +398,73 @@ void simple_tag_proportions::Loop(bool write) {
     
     ///USE "UPDATE" to append histograms to the output file
     
+  // char const *outputChar = std::to_string(sample).c_str();
+    string outputIndividualString = sample+"_"+hadron_type+"_individual.root";
+    string outputAllString = sample+"_"+hadron_type+"_all.root";
+    string outputCountString = sample+"_"+hadron_type+"_count.root";
+    string outputRatioString = sample+"_"+hadron_type+"_ratio.root";
+    string outputHLocString = sample+"_"+hadron_type+"_hloc.root";
+    
+    char const *outputIndividual = outputIndividualString.c_str();
+    char const *outputAll = outputAllString.c_str();
+    char const *outputCount = outputCountString.c_str();
+    char const *outputRatio = outputRatioString.c_str();
+    char const *outputHLoc = outputHLocString.c_str();
+    
     if (write) {
-        TFile * output_file = (hadron_type=="B") ? new TFile("output_plots_B_HADRONS.root", "RECREATE") : new TFile("output_plots_C_HADRONS.root", "RECREATE");
+        TFile * output_file = (hadron_type=="B") ? new TFile(outputIndividual, "RECREATE") : new TFile(outputIndividual, "RECREATE");
         
         output_file->cd();
         
         for (int i=0; i<b_hadrons.size(); i++) {
-            B_PT_labeled_hadrons[i]->Write();
-            B_PT_tagged_hadrons_low[i]->Write();
-            B_PT_tagged_hadrons_high[i]->Write();
+            H_PT_labeled_hadrons[i]->Write();
+            H_PT_tagged_hadrons_low[i]->Write();
+            H_PT_tagged_hadrons_high[i]->Write();
             
-            B_ETA_labeled_hadrons[i]->Write();
-            B_ETA_tagged_hadrons_low[i]->Write();
-            B_ETA_tagged_hadrons_high[i]->Write();
+            H_ETA_labeled_hadrons[i]->Write();
+            H_ETA_tagged_hadrons_low[i]->Write();
+            H_ETA_tagged_hadrons_high[i]->Write();
+            
+            H_LOC_labeled_hadrons[i]->Write();
+            H_LOC_tagged_hadrons_low[i]->Write();
+            H_LOC_tagged_hadrons_high[i]->Write();
         }
         
         output_file->Close();
         
-        TFile * output_file_all = (hadron_type=="B") ? new TFile("output_plots_all_B.root", "RECREATE") : new TFile("output_plots_all_C.root", "RECREATE");
+        TFile * output_file_all = (hadron_type=="B") ? new TFile(outputAll, "RECREATE") : new TFile(outputAll, "RECREATE");
         
         output_file_all->cd();
         
-        B_all_PT_labeled->Write();
-        B_all_PT_tagged_low->Write();
-        B_all_PT_tagged_high->Write();
+        H_all_PT_labeled->Write();
+        H_all_PT_tagged_low->Write();
+        H_all_PT_tagged_high->Write();
         
-        B_all_ETA_labeled->Write();
-        B_all_ETA_tagged_low->Write();
-        B_all_ETA_tagged_high->Write();
+        H_all_ETA_labeled->Write();
+        H_all_ETA_tagged_low->Write();
+        H_all_ETA_tagged_high->Write();
         
         output_file_all->Close();
         
-        TFile * output_file_count = (hadron_type=="B") ? new TFile("output_plots_count_B.root", "RECREATE") : new TFile("output_plots_count_C.root", "RECREATE");
-
+        TFile * output_file_count = (hadron_type=="B") ? new TFile(outputCount, "RECREATE") : new TFile(outputCount, "RECREATE");
+        
         output_file_count->cd();
         
-        Hadron_count_plot->Write();
-        Hadron_count_plot_tagged_low->Write();
-        Hadron_count_plot_tagged_high->Write();
+        H_count_plot->Write();
+        H_count_plot_tagged_low->Write();
+        H_count_plot_tagged_high->Write();
         
         output_file_count->Close();
         
-        TFile * output_file_ratio = (hadron_type=="B") ? new TFile("output_plots_ratio_B.root", "RECREATE") : new TFile("output_plots_ratio_C.root", "RECREATE");
+        TFile * output_file_ratio = (hadron_type=="B") ? new TFile(outputRatio, "RECREATE") : new TFile(outputRatio, "RECREATE");
         
         output_file_ratio->cd();
         
-        B_ratio_labeled->Write();
-        B_ratio_labeled_tagged_low->Write();
-        B_ratio_labeled_tagged_high->Write();
+        H_ratio_labeled->Write();
+        H_ratio_labeled_tagged_low->Write();
+        H_ratio_labeled_tagged_high->Write();
         
         output_file_ratio->Close();
+        
     }
-
 }

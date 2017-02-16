@@ -43,6 +43,10 @@ float DeltaR(float eta1, float phi1, float eta2, float phi2) {
     return hypot(TVector2::Phi_mpi_pi(phi2 - phi1), fabs(eta2 - eta1));
 }
 
+float hLoc(float eta1, float phi1, float eta2, float phi2) {
+    return hypot(TVector2::Phi_mpi_pi(phi2 - phi1), (eta2 - eta1));
+}
+
 class simple_tag_proportions {
     
     //Can be used anytime we need to differentiate between the two hadron types.
@@ -282,7 +286,7 @@ void simple_tag_proportions::Init(TTree *tree)
     
     //use jet_MV2c20 for output.root
     
-    fChain->SetBranchAddress("jet_MV2c20", &jet_MV2c20, &b_jet_MV2c20);
+    fChain->SetBranchAddress("jet_MV2c10", &jet_MV2c20, &b_jet_MV2c20);
     fChain->SetBranchAddress("mchfpart_pt", &mchfpart_pt, &b_mchfpart_pt);
     fChain->SetBranchAddress("mchfpart_eta", &mchfpart_eta, &b_mchfpart_eta);
     fChain->SetBranchAddress("mchfpart_phi", &mchfpart_phi, &b_mchfpart_phi);
