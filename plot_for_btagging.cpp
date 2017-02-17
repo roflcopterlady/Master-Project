@@ -586,15 +586,15 @@ TH1* plot_for_btagging::getEffPlot(TH1* plot1, TH1* plot2, TString plotName) {
   return Eff;
 }
 
-//void plot_for_btagging::EffPlots(TH1* plot1, TH1* plot2, TString plotName) {
+void plot_for_btagging::EffPlots(TH1* plot1, TH1* plot2, TString plotName) {
 
-//  TH1 * Eff = (TH1F*) plot1->Clone();
-//  Eff->SetTitle(plotName);
-//  Eff->SetName(plotName);
-//  Eff->Divide(plot2);
-//  Eff->SetAxisRange(0, 1, "Y");
-//  Eff->Write();
-//}
+  TH1 * Eff = (TH1F*) plot1->Clone();
+  Eff->SetTitle(plotName);
+  Eff->SetName(plotName);
+  Eff->Divide(plot2);
+  Eff->SetAxisRange(0, 1, "Y");
+  Eff->Write();
+}
 
 
 TH1* plot_for_btagging::getPlot(TString fileName, TString plotName) {
