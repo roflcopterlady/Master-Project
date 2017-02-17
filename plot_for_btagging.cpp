@@ -7,6 +7,7 @@
 #include "TCanvas.h"
 #include "array"
 #include <iostream>
+#include <string>
 
 #include "plot_for_btagging.hpp"
 
@@ -14,11 +15,11 @@ int hadron_number;
 float mv_value;
 
 int main() {
-  TString sample2 = "output2.root";
-  TString sample3 = "output3.root";
+  TString sample2 = "/home/oriana/scratch/code/output2.root";
+  TString sample3 = "/home/oriana/scratch/code/output3.root";
 
-  plot_for_btagging::resultsForFile(sample2, "output2.root");
-  plot_for_btagging::resultsForFile(sample3, "output3.root");
+  plot_for_btagging::resultsForFile(sample2, "/home/oriana/scratch/code/output2.root");
+  plot_for_btagging::resultsForFile(sample3, "/home/oriana/scratch/code/output3.root");
 
   return 0;
 }
@@ -48,6 +49,7 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   //B_511 info
   TH1 * plot_B_511_PT_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_PT_L");
   TH1 * plot_B_511_ETA_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_ETA_L");
+  TH1 * plot_B_511_HLOC_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_HLOC_L");
 
   TH1 * plot_B_511_PT_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_PT_LT_-0.7887");
   TH1 * plot_B_511_PT_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_PT_LT_0.4496");
@@ -55,15 +57,22 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   TH1 * plot_B_511_ETA_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_ETA_LT_-0.7887");
   TH1 * plot_B_511_ETA_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_ETA_LT_0.4496");
 
-  TH1 * plot_B_511_PT_Eff_low = plot_for_btagging::getEffPlot(plot_B_511_PT_LT_low, plot_B_511_PT_L, "B_511_PT_Efficinecy_-0.7887");
-  TH1 * plot_B_511_PT_Eff_high = plot_for_btagging::getEffPlot(plot_B_511_PT_LT_high, plot_B_511_PT_L, "B_511_PT_Efficinecy_0.4496");
+  TH1 * plot_B_511_HLOC_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_HLOC_LT_-0.7887");
+  TH1 * plot_B_511_HLOC_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_HLOC_LT_0.4496");
 
-  TH1 * plot_B_511_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_B_511_ETA_LT_low, plot_B_511_ETA_L, "B_511_PT_Efficinecy_-0.7887");
-  TH1 * plot_B_511_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_B_511_ETA_LT_high, plot_B_511_ETA_L, "B_511_PT_Efficinecy_0.4496");
+  TH1 * plot_B_511_PT_Eff_low = plot_for_btagging::getEffPlot(plot_B_511_PT_LT_low, plot_B_511_PT_L, "B_511_PT_Efficiency_-0.7887");
+  TH1 * plot_B_511_PT_Eff_high = plot_for_btagging::getEffPlot(plot_B_511_PT_LT_high, plot_B_511_PT_L, "B_511_PT_Efficiency_0.4496");
+
+  TH1 * plot_B_511_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_B_511_ETA_LT_low, plot_B_511_ETA_L, "B_511_ETA_Efficiency_-0.7887");
+  TH1 * plot_B_511_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_B_511_ETA_LT_high, plot_B_511_ETA_L, "B_511_ETA_Efficiency_0.4496");
+
+  TH1 * plot_B_511_HLOC_Eff_low = plot_for_btagging::getEffPlot(plot_B_511_HLOC_LT_low, plot_B_511_HLOC_L, "B_511_HLOC_Efficiency_-0.7887");
+  TH1 * plot_B_511_HLOC_Eff_high = plot_for_btagging::getEffPlot(plot_B_511_HLOC_LT_high, plot_B_511_HLOC_L, "B_511_HLOC_Efficiency_0.4496");
 
   //B_521 info
   TH1 * plot_B_521_PT_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_521_PT_L");
   TH1 * plot_B_521_ETA_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_521_ETA_L");
+  TH1 * plot_B_521_HLOC_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_521_HLOC_L");
 
   TH1 * plot_B_521_PT_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_521_PT_LT_-0.7887");
   TH1 * plot_B_521_PT_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_521_PT_LT_0.4496");
@@ -71,15 +80,22 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   TH1 * plot_B_521_ETA_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_521_ETA_LT_-0.7887");
   TH1 * plot_B_521_ETA_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_521_ETA_LT_0.4496");
 
-  TH1 * plot_B_521_PT_Eff_low = plot_for_btagging::getEffPlot(plot_B_521_PT_LT_low, plot_B_521_PT_L, "B_521_PT_Efficinecy_-0.7887");
-  TH1 * plot_B_521_PT_Eff_high = plot_for_btagging::getEffPlot(plot_B_521_PT_LT_high, plot_B_521_PT_L, "B_521_PT_Efficinecy_0.4496");
+  TH1 * plot_B_521_HLOC_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_521_HLOC_LT_-0.7887");
+  TH1 * plot_B_521_HLOC_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_521_HLOC_LT_0.4496");
 
-  TH1 * plot_B_521_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_B_521_ETA_LT_low, plot_B_521_ETA_L, "B_521_PT_Efficinecy_-0.7887");
-  TH1 * plot_B_521_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_B_521_ETA_LT_high, plot_B_521_ETA_L, "B_521_PT_Efficinecy_0.4496");
+  TH1 * plot_B_521_PT_Eff_low = plot_for_btagging::getEffPlot(plot_B_521_PT_LT_low, plot_B_521_PT_L, "B_521_PT_Efficiency_-0.7887");
+  TH1 * plot_B_521_PT_Eff_high = plot_for_btagging::getEffPlot(plot_B_521_PT_LT_high, plot_B_521_PT_L, "B_521_PT_Efficiency_0.4496");
+
+  TH1 * plot_B_521_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_B_521_ETA_LT_low, plot_B_521_ETA_L, "B_521_PT_Efficiency_-0.7887");
+  TH1 * plot_B_521_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_B_521_ETA_LT_high, plot_B_521_ETA_L, "B_521_PT_Efficiency_0.4496");
+
+  TH1 * plot_B_521_HLOC_Eff_low = plot_for_btagging::getEffPlot(plot_B_521_HLOC_LT_low, plot_B_521_HLOC_L, "B_521_HLOC_Efficiency_-0.7887");
+  TH1 * plot_B_521_HLOC_Eff_high = plot_for_btagging::getEffPlot(plot_B_521_HLOC_LT_high, plot_B_521_HLOC_L, "B_521_HLOC_Efficiency_0.4496");
 
   //B_531 info
   TH1 * plot_B_531_PT_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_531_PT_L");
   TH1 * plot_B_531_ETA_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_531_ETA_L");
+  TH1 * plot_B_531_HLOC_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_531_HLOC_L");
 
   TH1 * plot_B_531_PT_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_531_PT_LT_-0.7887");
   TH1 * plot_B_531_PT_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_531_PT_LT_0.4496");
@@ -87,15 +103,22 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   TH1 * plot_B_531_ETA_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_531_ETA_LT_-0.7887");
   TH1 * plot_B_531_ETA_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_531_ETA_LT_0.4496");
 
-  TH1 * plot_B_531_PT_Eff_low = plot_for_btagging::getEffPlot(plot_B_531_PT_LT_low, plot_B_531_PT_L, "B_531_PT_Efficinecy_-0.7887");
-  TH1 * plot_B_531_PT_Eff_high = plot_for_btagging::getEffPlot(plot_B_531_PT_LT_high, plot_B_531_PT_L, "B_531_PT_Efficinecy_0.4496");
+  TH1 * plot_B_531_HLOC_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_531_HLOC_LT_-0.7887");
+  TH1 * plot_B_531_HLOC_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_531_HLOC_LT_0.4496");
 
-  TH1 * plot_B_531_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_B_531_ETA_LT_low, plot_B_531_ETA_L, "B_531_PT_Efficinecy_-0.7887");
-  TH1 * plot_B_531_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_B_531_ETA_LT_high, plot_B_531_ETA_L, "B_531_PT_Efficinecy_0.4496");
+  TH1 * plot_B_531_PT_Eff_low = plot_for_btagging::getEffPlot(plot_B_531_PT_LT_low, plot_B_531_PT_L, "B_531_PT_Efficiency_-0.7887");
+  TH1 * plot_B_531_PT_Eff_high = plot_for_btagging::getEffPlot(plot_B_531_PT_LT_high, plot_B_531_PT_L, "B_531_PT_Efficiency_0.4496");
+
+  TH1 * plot_B_531_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_B_531_ETA_LT_low, plot_B_531_ETA_L, "B_531_PT_Efficiency_-0.7887");
+  TH1 * plot_B_531_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_B_531_ETA_LT_high, plot_B_531_ETA_L, "B_531_PT_Efficiency_0.4496");
+
+  TH1 * plot_B_531_HLOC_Eff_low = plot_for_btagging::getEffPlot(plot_B_531_HLOC_LT_low, plot_B_531_HLOC_L, "B_531_HLOC_Efficiency_-0.7887");
+  TH1 * plot_B_531_HLOC_Eff_high = plot_for_btagging::getEffPlot(plot_B_531_HLOC_LT_high, plot_B_531_HLOC_L, "B_531_HLOC_Efficiency_0.4496");
 
   //B_541 info
   TH1 * plot_B_541_PT_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_541_PT_L");
   TH1 * plot_B_541_ETA_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_541_ETA_L");
+  TH1 * plot_B_541_HLOC_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_541_HLOC_L");
 
   TH1 * plot_B_541_PT_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_541_PT_LT_-0.7887");
   TH1 * plot_B_541_PT_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_541_PT_LT_0.4496");
@@ -103,15 +126,22 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   TH1 * plot_B_541_ETA_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_541_ETA_LT_-0.7887");
   TH1 * plot_B_541_ETA_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_541_ETA_LT_0.4496");
 
-  TH1 * plot_B_541_PT_Eff_low = plot_for_btagging::getEffPlot(plot_B_541_PT_LT_low, plot_B_541_PT_L, "B_541_PT_Efficinecy_-0.7887");
-  TH1 * plot_B_541_PT_Eff_high = plot_for_btagging::getEffPlot(plot_B_541_PT_LT_high, plot_B_541_PT_L, "B_541_PT_Efficinecy_0.4496");
+  TH1 * plot_B_541_HLOC_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_541_HLOC_LT_-0.7887");
+  TH1 * plot_B_541_HLOC_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_541_HLOC_LT_0.4496");
 
-  TH1 * plot_B_541_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_B_541_ETA_LT_low, plot_B_541_ETA_L, "B_541_PT_Efficinecy_-0.7887");
-  TH1 * plot_B_541_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_B_541_ETA_LT_high, plot_B_541_ETA_L, "B_541_PT_Efficinecy_0.4496");
+  TH1 * plot_B_541_PT_Eff_low = plot_for_btagging::getEffPlot(plot_B_541_PT_LT_low, plot_B_541_PT_L, "B_541_PT_Efficiency_-0.7887");
+  TH1 * plot_B_541_PT_Eff_high = plot_for_btagging::getEffPlot(plot_B_541_PT_LT_high, plot_B_541_PT_L, "B_541_PT_Efficiency_0.4496");
+
+  TH1 * plot_B_541_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_B_541_ETA_LT_low, plot_B_541_ETA_L, "B_541_PT_Efficiency_-0.7887");
+  TH1 * plot_B_541_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_B_541_ETA_LT_high, plot_B_541_ETA_L, "B_541_PT_Efficiency_0.4496");
+
+  TH1 * plot_B_541_HLOC_Eff_low = plot_for_btagging::getEffPlot(plot_B_541_HLOC_LT_low, plot_B_541_HLOC_L, "B_541_HLOC_Efficiency_-0.7887");
+  TH1 * plot_B_541_HLOC_Eff_high = plot_for_btagging::getEffPlot(plot_B_541_HLOC_LT_high, plot_B_541_HLOC_L, "B_541_HLOC_Efficiency_0.4496");
 
   //B_5122 info
   TH1 * plot_B_5122_PT_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_5122_PT_L");
   TH1 * plot_B_5122_ETA_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_5122_ETA_L");
+  TH1 * plot_B_5122_HLOC_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_5122_HLOC_L");
 
   TH1 * plot_B_5122_PT_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_5122_PT_LT_-0.7887");
   TH1 * plot_B_5122_PT_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_5122_PT_LT_0.4496");
@@ -119,15 +149,22 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   TH1 * plot_B_5122_ETA_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_5122_ETA_LT_-0.7887");
   TH1 * plot_B_5122_ETA_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_5122_ETA_LT_0.4496");
 
-  TH1 * plot_B_5122_PT_Eff_low = plot_for_btagging::getEffPlot(plot_B_5122_PT_LT_low, plot_B_5122_PT_L, "B_5122_PT_Efficinecy_-0.7887");
-  TH1 * plot_B_5122_PT_Eff_high = plot_for_btagging::getEffPlot(plot_B_5122_PT_LT_high, plot_B_5122_PT_L, "B_5122_PT_Efficinecy_0.4496");
+  TH1 * plot_B_5122_HLOC_LT_low = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_5122_HLOC_LT_-0.7887");
+  TH1 * plot_B_5122_HLOC_LT_high = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_5122_HLOC_LT_0.4496");
 
-  TH1 * plot_B_5122_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_B_5122_ETA_LT_low, plot_B_5122_ETA_L, "B_5122_PT_Efficinecy_-0.7887");
-  TH1 * plot_B_5122_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_B_5122_ETA_LT_high, plot_B_5122_ETA_L, "B_5122_PT_Efficinecy_0.4496");
+  TH1 * plot_B_5122_PT_Eff_low = plot_for_btagging::getEffPlot(plot_B_5122_PT_LT_low, plot_B_5122_PT_L, "B_5122_PT_Efficiency_-0.7887");
+  TH1 * plot_B_5122_PT_Eff_high = plot_for_btagging::getEffPlot(plot_B_5122_PT_LT_high, plot_B_5122_PT_L, "B_5122_PT_Efficiency_0.4496");
+
+  TH1 * plot_B_5122_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_B_5122_ETA_LT_low, plot_B_5122_ETA_L, "B_5122_PT_Efficiency_-0.7887");
+  TH1 * plot_B_5122_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_B_5122_ETA_LT_high, plot_B_5122_ETA_L, "B_5122_PT_Efficiency_0.4496");
+
+  TH1 * plot_B_5122_HLOC_Eff_low = plot_for_btagging::getEffPlot(plot_B_5122_HLOC_LT_low, plot_B_5122_HLOC_L, "B_5122_HLOC_Efficiency_-0.7887");
+  TH1 * plot_B_5122_HLOC_Eff_high = plot_for_btagging::getEffPlot(plot_B_5122_HLOC_LT_high, plot_B_5122_HLOC_L, "B_5122_HLOC_Efficiency_0.4496");
 
   //C_411 info
   TH1 * plot_C_411_PT_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_411_PT_L");
   TH1 * plot_C_411_ETA_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_411_ETA_L");
+  TH1 * plot_C_411_HLOC_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_411_HLOC_L");
 
   TH1 * plot_C_411_PT_LT_low = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_411_PT_LT_-0.7887");
   TH1 * plot_C_411_PT_LT_high = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_411_PT_LT_0.4496");
@@ -135,15 +172,22 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   TH1 * plot_C_411_ETA_LT_low = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_411_ETA_LT_-0.7887");
   TH1 * plot_C_411_ETA_LT_high = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_411_ETA_LT_0.4496");
 
-  TH1 * plot_C_411_PT_Eff_low = plot_for_btagging::getEffPlot(plot_C_411_PT_LT_low, plot_C_411_PT_L, "C_411_PT_Efficinecy_-0.7887");
-  TH1 * plot_C_411_PT_Eff_high = plot_for_btagging::getEffPlot(plot_C_411_PT_LT_high, plot_C_411_PT_L, "C_411_PT_Efficinecy_0.4496");
+  TH1 * plot_C_411_HLOC_LT_low = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_411_HLOC_LT_-0.7887");
+  TH1 * plot_C_411_HLOC_LT_high = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_411_HLOC_LT_0.4496");
 
-  TH1 * plot_C_411_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_C_411_ETA_LT_low, plot_C_411_ETA_L, "C_411_PT_Efficinecy_-0.7887");
-  TH1 * plot_C_411_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_C_411_ETA_LT_high, plot_C_411_ETA_L, "C_411_PT_Efficinecy_0.4496");
+  TH1 * plot_C_411_PT_Eff_low = plot_for_btagging::getEffPlot(plot_C_411_PT_LT_low, plot_C_411_PT_L, "C_411_PT_Efficiency_-0.7887");
+  TH1 * plot_C_411_PT_Eff_high = plot_for_btagging::getEffPlot(plot_C_411_PT_LT_high, plot_C_411_PT_L, "C_411_PT_Efficiency_0.4496");
+
+  TH1 * plot_C_411_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_C_411_ETA_LT_low, plot_C_411_ETA_L, "C_411_PT_Efficiency_-0.7887");
+  TH1 * plot_C_411_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_C_411_ETA_LT_high, plot_C_411_ETA_L, "C_411_PT_Efficiency_0.4496");
+
+  TH1 * plot_C_411_HLOC_Eff_low = plot_for_btagging::getEffPlot(plot_C_411_HLOC_LT_low, plot_C_411_HLOC_L, "C_411_HLOC_Efficiency_-0.7887");
+  TH1 * plot_C_411_HLOC_Eff_high = plot_for_btagging::getEffPlot(plot_C_411_HLOC_LT_high, plot_C_411_HLOC_L, "C_411_HLOC_Efficiency_0.4496");
 
   //C_421 info
   TH1 * plot_C_421_PT_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_421_PT_L");
   TH1 * plot_C_421_ETA_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_421_ETA_L");
+  TH1 * plot_C_421_HLOC_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_421_HLOC_L");
 
   TH1 * plot_C_421_PT_LT_low = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_421_PT_LT_-0.7887");
   TH1 * plot_C_421_PT_LT_high = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_421_PT_LT_0.4496");
@@ -151,15 +195,22 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   TH1 * plot_C_421_ETA_LT_low = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_421_ETA_LT_-0.7887");
   TH1 * plot_C_421_ETA_LT_high = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_421_ETA_LT_0.4496");
 
-  TH1 * plot_C_421_PT_Eff_low = plot_for_btagging::getEffPlot(plot_C_421_PT_LT_low, plot_C_421_PT_L, "C_421_PT_Efficinecy_-0.7887");
-  TH1 * plot_C_421_PT_Eff_high = plot_for_btagging::getEffPlot(plot_C_421_PT_LT_high, plot_C_421_PT_L, "C_421_PT_Efficinecy_0.4496");
+  TH1 * plot_C_421_HLOC_LT_low = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_421_HLOC_LT_-0.7887");
+  TH1 * plot_C_421_HLOC_LT_high = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_421_HLOC_LT_0.4496");
 
-  TH1 * plot_C_421_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_C_421_ETA_LT_low, plot_C_421_ETA_L, "C_421_PT_Efficinecy_-0.7887");
-  TH1 * plot_C_421_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_C_421_ETA_LT_high, plot_C_421_ETA_L, "C_421_PT_Efficinecy_0.4496");
+  TH1 * plot_C_421_PT_Eff_low = plot_for_btagging::getEffPlot(plot_C_421_PT_LT_low, plot_C_421_PT_L, "C_421_PT_Efficiency_-0.7887");
+  TH1 * plot_C_421_PT_Eff_high = plot_for_btagging::getEffPlot(plot_C_421_PT_LT_high, plot_C_421_PT_L, "C_421_PT_Efficiency_0.4496");
+
+  TH1 * plot_C_421_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_C_421_ETA_LT_low, plot_C_421_ETA_L, "C_421_PT_Efficiency_-0.7887");
+  TH1 * plot_C_421_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_C_421_ETA_LT_high, plot_C_421_ETA_L, "C_421_PT_Efficiency_0.4496");
+
+  TH1 * plot_C_421_HLOC_Eff_low = plot_for_btagging::getEffPlot(plot_C_421_HLOC_LT_low, plot_C_421_HLOC_L, "C_421_HLOC_Efficiency_-0.7887");
+  TH1 * plot_C_421_HLOC_Eff_high = plot_for_btagging::getEffPlot(plot_C_421_HLOC_LT_high, plot_C_421_HLOC_L, "C_421_HLOC_Efficiency_0.4496");
 
   //C_431 info
   TH1 * plot_C_431_PT_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_431_PT_L");
   TH1 * plot_C_431_ETA_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_431_ETA_L");
+  TH1 * plot_C_431_HLOC_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_431_HLOC_L");
 
   TH1 * plot_C_431_PT_LT_low = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_431_PT_LT_-0.7887");
   TH1 * plot_C_431_PT_LT_high = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_431_PT_LT_0.4496");
@@ -167,15 +218,22 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   TH1 * plot_C_431_ETA_LT_low = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_431_ETA_LT_-0.7887");
   TH1 * plot_C_431_ETA_LT_high = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_431_ETA_LT_0.4496");
 
-  TH1 * plot_C_431_PT_Eff_low = plot_for_btagging::getEffPlot(plot_C_431_PT_LT_low, plot_C_431_PT_L, "C_431_PT_Efficinecy_-0.7887");
-  TH1 * plot_C_431_PT_Eff_high = plot_for_btagging::getEffPlot(plot_C_431_PT_LT_high, plot_C_431_PT_L, "C_431_PT_Efficinecy_0.4496");
+  TH1 * plot_C_431_HLOC_LT_low = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_431_HLOC_LT_-0.7887");
+  TH1 * plot_C_431_HLOC_LT_high = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_431_HLOC_LT_0.4496");
 
-  TH1 * plot_C_431_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_C_431_ETA_LT_low, plot_C_431_ETA_L, "C_431_PT_Efficinecy_-0.7887");
-  TH1 * plot_C_431_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_C_431_ETA_LT_high, plot_C_431_ETA_L, "C_431_PT_Efficinecy_0.4496");
+  TH1 * plot_C_431_PT_Eff_low = plot_for_btagging::getEffPlot(plot_C_431_PT_LT_low, plot_C_431_PT_L, "C_431_PT_Efficiency_-0.7887");
+  TH1 * plot_C_431_PT_Eff_high = plot_for_btagging::getEffPlot(plot_C_431_PT_LT_high, plot_C_431_PT_L, "C_431_PT_Efficiency_0.4496");
+
+  TH1 * plot_C_431_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_C_431_ETA_LT_low, plot_C_431_ETA_L, "C_431_PT_Efficiency_-0.7887");
+  TH1 * plot_C_431_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_C_431_ETA_LT_high, plot_C_431_ETA_L, "C_431_PT_Efficiency_0.4496");
+
+  TH1 * plot_C_431_HLOC_Eff_low = plot_for_btagging::getEffPlot(plot_C_431_HLOC_LT_low, plot_C_431_HLOC_L, "C_431_HLOC_Efficiency_-0.7887");
+  TH1 * plot_C_431_HLOC_Eff_high = plot_for_btagging::getEffPlot(plot_C_431_HLOC_LT_high, plot_C_431_HLOC_L, "C_431_HLOC_Efficiency_0.4496");
 
   //C_4122 info
   TH1 * plot_C_4122_PT_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_4122_PT_L");
   TH1 * plot_C_4122_ETA_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_4122_ETA_L");
+  TH1 * plot_C_4122_HLOC_L = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_4122_HLOC_L");
 
   TH1 * plot_C_4122_PT_LT_low = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_4122_PT_LT_-0.7887");
   TH1 * plot_C_4122_PT_LT_high = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_4122_PT_LT_0.4496");
@@ -183,11 +241,17 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   TH1 * plot_C_4122_ETA_LT_low = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_4122_ETA_LT_-0.7887");
   TH1 * plot_C_4122_ETA_LT_high = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_4122_ETA_LT_0.4496");
 
-  TH1 * plot_C_4122_PT_Eff_low = plot_for_btagging::getEffPlot(plot_C_4122_PT_LT_low, plot_C_4122_PT_L, "C_4122_PT_Efficinecy_-0.7887");
-  TH1 * plot_C_4122_PT_Eff_high = plot_for_btagging::getEffPlot(plot_C_4122_PT_LT_high, plot_C_4122_PT_L, "C_4122_PT_Efficinecy_0.4496");
+  TH1 * plot_C_4122_HLOC_LT_low = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_4122_HLOC_LT_-0.7887");
+  TH1 * plot_C_4122_HLOC_LT_high = plot_for_btagging::getPlot(C_HADRONS_INFO, "C_4122_HLOC_LT_0.4496");
 
-  TH1 * plot_C_4122_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_C_4122_ETA_LT_low, plot_C_4122_ETA_L, "C_4122_PT_Efficinecy_-0.7887");
-  TH1 * plot_C_4122_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_C_4122_ETA_LT_high, plot_C_4122_ETA_L, "C_4122_PT_Efficinecy_0.4496");
+  TH1 * plot_C_4122_PT_Eff_low = plot_for_btagging::getEffPlot(plot_C_4122_PT_LT_low, plot_C_4122_PT_L, "C_4122_PT_Efficiency_-0.7887");
+  TH1 * plot_C_4122_PT_Eff_high = plot_for_btagging::getEffPlot(plot_C_4122_PT_LT_high, plot_C_4122_PT_L, "C_4122_PT_Efficiency_0.4496");
+
+  TH1 * plot_C_4122_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_C_4122_ETA_LT_low, plot_C_4122_ETA_L, "C_4122_PT_Efficiency_-0.7887");
+  TH1 * plot_C_4122_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_C_4122_ETA_LT_high, plot_C_4122_ETA_L, "C_4122_PT_Efficiency_0.4496");
+
+  TH1 * plot_C_4122_HLOC_Eff_low = plot_for_btagging::getEffPlot(plot_C_4122_HLOC_LT_low, plot_C_4122_HLOC_L, "C_4122_HLOC_Efficiency_-0.7887");
+  TH1 * plot_C_4122_HLOC_Eff_high = plot_for_btagging::getEffPlot(plot_C_4122_HLOC_LT_high, plot_C_4122_HLOC_L, "C_4122_HLOC_Efficiency_0.4496");
 
   //PT info for all B_hadrons
   TH1 * plot_B_ALL_PT_L = plot_for_btagging::getPlot(B_ALL, "B_ALL_PT_L");
@@ -211,6 +275,16 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   TH1 * plot_C_ALL_ETA_LT_low = plot_for_btagging::getPlot(C_ALL, "C_ALL_ETA_LT_-0.7887");
   TH1 * plot_C_ALL_ETA_LT_high = plot_for_btagging::getPlot(C_ALL, "C_ALL_ETA_LT_0.4496");
 
+  //HLOC info for all B_hadrons
+  TH1 * plot_B_ALL_HLOC_L = plot_for_btagging::getPlot(B_ALL, "B_ALL_PT_L");
+  TH1 * plot_B_ALL_HLOC_LT_low = plot_for_btagging::getPlot(B_ALL, "B_ALL_HLOC_LT_-0.7887");
+  TH1 * plot_B_ALL_HLOC_LT_high = plot_for_btagging::getPlot(B_ALL, "B_ALL_HLOC_LT_0.4496");
+
+  //HLOC info for all C_hadrons
+  TH1 * plot_C_ALL_HLOC_L = plot_for_btagging::getPlot(C_ALL, "C_ALL_PT_L");
+  TH1 * plot_C_ALL_HLOC_LT_low = plot_for_btagging::getPlot(C_ALL, "C_ALL_HLOC_LT_-0.7887");
+  TH1 * plot_C_ALL_HLOC_LT_high = plot_for_btagging::getPlot(C_ALL, "C_ALL_HLOC_LT_0.4496");
+
   //PT info for all B_hadrons Efficiency
   TH1 * plot_B_ALL_PT_Eff_low = plot_for_btagging::getEffPlot(plot_B_ALL_PT_LT_low, plot_B_ALL_PT_L, "B_ALL_PT_Efficinecy_-0.7887");
   TH1 * plot_B_ALL_PT_Eff_high = plot_for_btagging::getEffPlot(plot_B_ALL_PT_LT_high, plot_B_ALL_PT_L, "B_ALL_PT_Efficinecy_0.4496");
@@ -221,6 +295,10 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   TH1 * plot_B_ALL_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_B_ALL_ETA_LT_low, plot_B_ALL_ETA_L, "B_ALL_ETA_Efficinecy_-0.7887");
   TH1 * plot_B_ALL_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_B_ALL_ETA_LT_high, plot_B_ALL_ETA_L, "B_ALL_ETA_Efficinecy_0.4496");
 
+  //HLOC info for all B_hadrons Efficiency
+  TH1 * plot_B_ALL_HLOC_Eff_low = plot_for_btagging::getEffPlot(plot_B_ALL_HLOC_LT_low, plot_B_ALL_HLOC_L, "B_ALL_HLOC_Efficiency_-0.7887");
+  TH1 * plot_B_ALL_HLOC_Eff_high = plot_for_btagging::getEffPlot(plot_B_ALL_HLOC_LT_high, plot_B_ALL_HLOC_L, "B_ALL_HLOC_Efficiency_0.4496");
+
   //PT info for all C_hadrons Efficiency
   TH1 * plot_C_ALL_PT_Eff_low = plot_for_btagging::getEffPlot(plot_C_ALL_PT_LT_low, plot_C_ALL_PT_L, "C_ALL_PT_Efficinecy_-0.7887");
   TH1 * plot_C_ALL_PT_Eff_high = plot_for_btagging::getEffPlot(plot_C_ALL_PT_LT_high, plot_C_ALL_PT_L, "C_ALL_PT_Efficinecy_0.4496");
@@ -229,7 +307,12 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   TH1 * plot_C_ALL_ETA_Eff_low = plot_for_btagging::getEffPlot(plot_C_ALL_ETA_LT_low, plot_C_ALL_ETA_L, "C_ALL_ETA_Efficinecy_-0.7887");
   TH1 * plot_C_ALL_ETA_Eff_high = plot_for_btagging::getEffPlot(plot_C_ALL_ETA_LT_high, plot_C_ALL_ETA_L, "C_ALL_ETA_Efficinecy_0.4496");
 
+  //HLOC info for all C_hadrons Efficiency
+  TH1 * plot_C_ALL_HLOC_Eff_low = plot_for_btagging::getEffPlot(plot_C_ALL_HLOC_LT_low, plot_C_ALL_HLOC_L, "C_ALL_HLOC_Efficiency_-0.7887");
+  TH1 * plot_C_ALL_HLOC_Eff_high = plot_for_btagging::getEffPlot(plot_C_ALL_HLOC_LT_high, plot_C_ALL_HLOC_L, "C_ALL_HLOC_Efficiency_0.4496");
+
   //PT info for all C_hadrons Efficiency
+  // Is this meant to be here?
   TH1 * plot_C_ALL_Eff_low = plot_for_btagging::getEffPlot(plot_C_ALL_PT_LT_low, plot_C_ALL_PT_L, "C_ALL_PT_Efficinecy_-0.7887");
   TH1 * plot_C_ALL_Eff_high = plot_for_btagging::getEffPlot(plot_C_ALL_PT_LT_high, plot_C_ALL_PT_L, "C_ALL_PT_Efficinecy_0.4496");
 
@@ -295,13 +378,13 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
 
   output_file_pt_hPT_vs_jPT->cd();
 
-  plot_for_btagging::overlayNPlots("PT Ratio between H and J: All B hadrons Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll, plot_B_PT_H_VS_J_L, plot_B_PT_H_VS_J_LT_low, plot_B_PT_H_VS_J_LT_high, NULL);
+  plot_for_btagging::overlayNPlots("PT Eff between H and J: All B hadrons Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll, plot_B_PT_H_VS_J_L, plot_B_PT_H_VS_J_LT_low, plot_B_PT_H_VS_J_LT_high, NULL);
 
-  plot_for_btagging::overlayNPlots("PT Ratio between H and J: All C hadrons Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll, plot_C_PT_H_VS_J_L, plot_C_PT_H_VS_J_LT_low, plot_C_PT_H_VS_J_LT_high, NULL);
+  plot_for_btagging::overlayNPlots("PT Eff between H and J: All C hadrons Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll, plot_C_PT_H_VS_J_L, plot_C_PT_H_VS_J_LT_low, plot_C_PT_H_VS_J_LT_high, NULL);
 
-  plot_for_btagging::overlayNPlots("PT Ratio between H and J: All B hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_PT_H_VS_J_Eff_low, plot_B_PT_H_VS_J_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("PT Eff between H and J: All B hadrons - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_PT_H_VS_J_Eff_low, plot_B_PT_H_VS_J_Eff_high, NULL);
 
-  plot_for_btagging::overlayNPlots("PT Ratio between H and J: All C hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_PT_H_VS_J_Eff_low, plot_C_PT_H_VS_J_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("PT Eff between H and J: All C hadrons - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_PT_H_VS_J_Eff_low, plot_C_PT_H_VS_J_Eff_high, NULL);
 
   output_file_pt_hPT_vs_jPT->Close();
 
@@ -313,9 +396,9 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
 
   plot_for_btagging::overlayNPlots("Rate: All C hadrons Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll, plot_C_ALL_Count, plot_C_ALL_low_Count, plot_C_ALL_high_Count, NULL);
 
-  plot_for_btagging::overlayNPlots("Rate: All B hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_ALL_Count_Eff_low, plot_B_ALL_Count_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("Rate: All B hadrons - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_ALL_Count_Eff_low, plot_B_ALL_Count_Eff_high, NULL);
 
-  plot_for_btagging::overlayNPlots("Rate: All C hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_ALL_Count_Eff_low, plot_C_ALL_Count_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("Rate: All C hadrons - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_ALL_Count_Eff_low, plot_C_ALL_Count_Eff_high, NULL);
 
   output_file_rate->Close();
 
@@ -330,13 +413,21 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
 
   plot_for_btagging::overlayNPlots("ETA: All C hadrons - Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll,plot_C_ALL_ETA_L, plot_C_ALL_ETA_LT_low, plot_C_ALL_ETA_LT_high, NULL);
 
-  plot_for_btagging::overlayNPlots("PT: All B hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_ALL_PT_Eff_low, plot_B_ALL_PT_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("HLOC: All B hadrons - Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll,plot_B_ALL_HLOC_L, plot_B_ALL_HLOC_LT_low, plot_B_ALL_HLOC_LT_high, NULL);
 
-  plot_for_btagging::overlayNPlots("ETA: All B hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_ALL_ETA_Eff_low, plot_B_ALL_ETA_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("HLOC: All C hadrons - Labeled & (Lab' and Tag') by different MV2C20 cutoffs", legendsArrayAll,plot_C_ALL_HLOC_L, plot_C_ALL_HLOC_LT_low, plot_C_ALL_HLOC_LT_high, NULL);
 
-  plot_for_btagging::overlayNPlots("PT: All C hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_ALL_PT_Eff_low, plot_C_ALL_PT_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("PT: All B hadrons - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_ALL_PT_Eff_low, plot_B_ALL_PT_Eff_high, NULL);
 
-  plot_for_btagging::overlayNPlots("ETA: All C hadrons - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_ALL_ETA_Eff_low, plot_C_ALL_ETA_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("ETA: All B hadrons - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_ALL_ETA_Eff_low, plot_B_ALL_ETA_Eff_high, NULL);
+
+  plot_for_btagging::overlayNPlots("HLOC: All B hadrons - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_ALL_HLOC_Eff_low, plot_B_ALL_HLOC_Eff_high, NULL);
+
+  plot_for_btagging::overlayNPlots("PT: All C hadrons - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_ALL_PT_Eff_low, plot_C_ALL_PT_Eff_high, NULL);
+
+  plot_for_btagging::overlayNPlots("ETA: All C hadrons - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_ALL_ETA_Eff_low, plot_C_ALL_ETA_Eff_high, NULL);
+
+  plot_for_btagging::overlayNPlots("HLOC: All C hadrons - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_ALL_HLOC_Eff_low, plot_C_ALL_HLOC_Eff_high, NULL);
 
   output_file->Close();
 
@@ -344,24 +435,33 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   output_file_B->cd();
 
   //B_511
-  plot_for_btagging::overlayNPlots("PT: B_511 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_511_PT_Eff_low, plot_B_511_PT_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("PT: B_511 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_511_PT_Eff_low, plot_B_511_PT_Eff_high, NULL);
 
-  plot_for_btagging::overlayNPlots("ETA: B_511 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_511_ETA_Eff_low, plot_B_511_ETA_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("ETA: B_511 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_511_ETA_Eff_low, plot_B_511_ETA_Eff_high, NULL);
+
+  plot_for_btagging::overlayNPlots("HLOC: B_511 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_511_HLOC_Eff_low, plot_B_511_HLOC_Eff_high, NULL);
 
   //B_521
-  plot_for_btagging::overlayNPlots("PT: B_521 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_521_PT_Eff_low, plot_B_521_PT_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("PT: B_521 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_521_PT_Eff_low, plot_B_521_PT_Eff_high, NULL);
 
-  plot_for_btagging::overlayNPlots("ETA: B_521 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_521_ETA_Eff_low, plot_B_521_ETA_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("ETA: B_521 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_521_ETA_Eff_low, plot_B_521_ETA_Eff_high, NULL);
+
+  plot_for_btagging::overlayNPlots("HLOC: B_521 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_521_HLOC_Eff_low, plot_B_521_HLOC_Eff_high, NULL);
 
   //B_531
-  plot_for_btagging::overlayNPlots("PT: B_531 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_531_PT_Eff_low, plot_B_531_PT_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("PT: B_531 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_531_PT_Eff_low, plot_B_531_PT_Eff_high, NULL);
 
-  plot_for_btagging::overlayNPlots("ETA: B_531 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_531_ETA_Eff_low, plot_B_531_ETA_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("ETA: B_531 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_531_ETA_Eff_low, plot_B_531_ETA_Eff_high, NULL);
+
+  plot_for_btagging::overlayNPlots("HLOC: B_531 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_531_HLOC_Eff_low, plot_B_531_HLOC_Eff_high, NULL);
 
   //B_541
-  plot_for_btagging::overlayNPlots("PT: B_541 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_541_PT_Eff_low, plot_B_541_PT_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("PT: B_541 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_541_PT_Eff_low, plot_B_541_PT_Eff_high, NULL);
 
-  plot_for_btagging::overlayNPlots("ETA: B_541 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_541_ETA_Eff_low, plot_B_541_ETA_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("ETA: B_541 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_541_ETA_Eff_low, plot_B_541_ETA_Eff_high, NULL);
+
+  plot_for_btagging::overlayNPlots("HLOC: B_541 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_B_541_HLOC_Eff_low, plot_B_541_HLOC_Eff_low, NULL);
+
 
   output_file_B->Close();
 
@@ -369,24 +469,32 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
   output_file_C->cd();
 
   //C_411
-  plot_for_btagging::overlayNPlots("PT: C_411 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_411_PT_Eff_low, plot_C_411_PT_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("PT: C_411 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_411_PT_Eff_low, plot_C_411_PT_Eff_high, NULL);
 
-  plot_for_btagging::overlayNPlots("ETA: C_411 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_411_ETA_Eff_low, plot_C_411_ETA_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("ETA: C_411 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_411_ETA_Eff_low, plot_C_411_ETA_Eff_high, NULL);
+
+  plot_for_btagging::overlayNPlots("HLOC: C_411 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_411_HLOC_Eff_low, plot_C_411_HLOC_Eff_high, NULL);
 
   //C_421
-  plot_for_btagging::overlayNPlots("PT: C_421 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_421_PT_Eff_low, plot_C_421_PT_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("PT: C_421 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_421_PT_Eff_low, plot_C_421_PT_Eff_high, NULL);
 
-  plot_for_btagging::overlayNPlots("ETA: C_421 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_421_ETA_Eff_low, plot_C_421_ETA_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("ETA: C_421 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_421_ETA_Eff_low, plot_C_421_ETA_Eff_high, NULL);
+
+  plot_for_btagging::overlayNPlots("HLOC: C_421 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_421_HLOC_Eff_low, plot_C_421_HLOC_Eff_high, NULL);
 
   //C_431
-  plot_for_btagging::overlayNPlots("PT: C_431 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_431_PT_Eff_low, plot_C_431_PT_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("PT: C_431 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_431_PT_Eff_low, plot_C_431_PT_Eff_high, NULL);
 
-  plot_for_btagging::overlayNPlots("ETA: C_431 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_431_ETA_Eff_low, plot_C_431_ETA_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("ETA: C_431 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_431_ETA_Eff_low, plot_C_431_ETA_Eff_high, NULL);
+
+  plot_for_btagging::overlayNPlots("HLOC: C_431 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_431_HLOC_Eff_low, plot_C_431_HLOC_Eff_high, NULL);
 
   //C_4122
-  plot_for_btagging::overlayNPlots("PT: C_4122 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_4122_PT_Eff_low, plot_C_4122_PT_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("PT: C_4122 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_4122_PT_Eff_low, plot_C_4122_PT_Eff_high, NULL);
 
-  plot_for_btagging::overlayNPlots("ETA: C_4122 - Efficiency with respects to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_4122_ETA_Eff_low, plot_C_4122_ETA_Eff_high, NULL);
+  plot_for_btagging::overlayNPlots("ETA: C_4122 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_4122_ETA_Eff_low, plot_C_4122_ETA_Eff_high, NULL);
+
+  plot_for_btagging::overlayNPlots("HLOC: C_4122 - Efficiency with respect to different MV2C20 cutoffs", legendsArrayEfficiency, plot_C_4122_HLOC_Eff_low, plot_C_4122_HLOC_Eff_high, NULL);
 
   output_file_B->Close();
 
@@ -470,23 +578,23 @@ void plot_for_btagging::overlayNPlots(TString plotName, std::vector<TString> leg
 
 TH1* plot_for_btagging::getEffPlot(TH1* plot1, TH1* plot2, TString plotName) {
 
-  TH1 * ratio = (TH1F*) plot1->Clone();
-  ratio->SetTitle(plotName);
-  ratio->SetName(plotName);
-  ratio->Divide(plot1,plot2,1,1, "B");
-  ratio->SetAxisRange(0, 1, "Y");
-  return ratio;
+  TH1 * Eff = (TH1F*) plot1->Clone();
+  Eff->SetTitle(plotName);
+  Eff->SetName(plotName);
+  Eff->Divide(plot1,plot2,1,1, "B");
+  Eff->SetAxisRange(0, 1, "Y");
+  return Eff;
 }
 
-void plot_for_btagging::ratioPlots(TH1* plot1, TH1* plot2, TString plotName) {
+//void plot_for_btagging::EffPlots(TH1* plot1, TH1* plot2, TString plotName) {
 
-  TH1 * ratio = (TH1F*) plot1->Clone();
-  ratio->SetTitle(plotName);
-  ratio->SetName(plotName);
-  ratio->Divide(plot2);
-  ratio->SetAxisRange(0, 1, "Y");
-  ratio->Write();
-}
+//  TH1 * Eff = (TH1F*) plot1->Clone();
+//  Eff->SetTitle(plotName);
+//  Eff->SetName(plotName);
+//  Eff->Divide(plot2);
+//  Eff->SetAxisRange(0, 1, "Y");
+//  Eff->Write();
+//}
 
 
 TH1* plot_for_btagging::getPlot(TString fileName, TString plotName) {
