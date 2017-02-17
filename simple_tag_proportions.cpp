@@ -24,7 +24,7 @@ using std::cin;
 using std::string;
 using std::ofstream;
 
-string sample = "output3.root";
+string sample = "output2.root";
 
 
 int cut_pos;
@@ -135,9 +135,9 @@ void simple_tag_proportions::Loop(bool write) {
 
     if (hadron_type=="B") {
         float b_hadrons_bins[11] = {0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5};
-        H_count_plot = new TH1F("B_Hadron_count", "B_Hadron_count", 10, b_hadrons_bins);
-        H_count_plot_tagged_low = new TH1F("B_Hadron_count_mv_low", "B_Hadron_count_mv_low", 10, b_hadrons_bins);
-        H_count_plot_tagged_high = new TH1F("B_Hadron_count_mv_high", "B_Hadron_count_mv_high", 10, b_hadrons_bins);
+        H_count_plot = new TH1F("B_PR_L", "B_PR_L", 10, b_hadrons_bins);
+        H_count_plot_tagged_low = new TH1F("B_PR_LT_-0.7887", "B_PR_LT_-0.7887", 10, b_hadrons_bins);
+        H_count_plot_tagged_high = new TH1F("B_PR_LT_0.4496", "B_PR_LT_0.4496", 10, b_hadrons_bins);
 
         std::vector<TH1*> count_plot_vector;
         count_plot_vector.push_back(H_count_plot);
@@ -155,9 +155,9 @@ void simple_tag_proportions::Loop(bool write) {
     }
     else {
         float c_hadrons_bins[8] = {0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5};
-        H_count_plot = new TH1F("C_Hadron_count", "C_Hadron_count", 7, c_hadrons_bins);
-        H_count_plot_tagged_low = new TH1F("C_Hadron_count_mv_low", "C_Hadron_count_mv_low", 7, c_hadrons_bins);
-        H_count_plot_tagged_high = new TH1F("C_Hadron_count_mv_high", "C_Hadron_count_mv_high", 7, c_hadrons_bins);
+        H_count_plot = new TH1F("C_PR_L", "C_PR_L", 7, c_hadrons_bins);
+        H_count_plot_tagged_low = new TH1F("C_PR_LT_-0.7887", "C_PR_LT-0.7887", 7, c_hadrons_bins);
+        H_count_plot_tagged_high = new TH1F("C_PR_LT_0.4496", "C_PR_LT_0.4496", 7, c_hadrons_bins);
 
         std::vector<TH1*> count_plot_vector;
         count_plot_vector.push_back(H_count_plot);
@@ -174,11 +174,9 @@ void simple_tag_proportions::Loop(bool write) {
         }
     }
 
-     cout<<"GOT HERE"<<endl;
-
-    TH1 * H_ratio_labeled = MakePlot(hadron_type+"_Ratio_L", 100, 0, 1);
-    TH1 * H_ratio_labeled_tagged_low = MakePlot(hadron_type+"_LT_low", 100, 0, 1);
-    TH1 * H_ratio_labeled_tagged_high = MakePlot(hadron_type+"_LT_high", 100, 0, 1);
+    TH1 * H_ratio_labeled = MakePlot(hadron_type+"_PT_H_VS_J_L", 100, 0, 1);
+    TH1 * H_ratio_labeled_tagged_low = MakePlot(hadron_type+"_PT_H_VS_J_LT_-0.7887", 100, 0, 1);
+    TH1 * H_ratio_labeled_tagged_high = MakePlot(hadron_type+"_PT_H_VS_J_LT_0.4496", 100, 0, 1);
 
     // Get name of generator from input file
     TString generator = "powheg";//sample.substr(13, sample.find(".AOD")-13);
@@ -410,7 +408,7 @@ void simple_tag_proportions::Loop(bool write) {
     string outputIndividualString = sample+"_"+hadron_type+"_individual.root";
     string outputAllString = sample+"_"+hadron_type+"_all.root";
     string outputCountString = sample+"_"+hadron_type+"_count.root";
-    string outputRatioString = sample+"_"+hadron_type+"_ratio.root";
+    string outputRatioString = sample+"_"+hadron_type+"_hPT_vs_jPT.root";
     string outputHLocString = sample+"_"+hadron_type+"_hloc.root";
 
     char const *outputIndividual = outputIndividualString.c_str();

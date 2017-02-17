@@ -20,20 +20,19 @@
 #include "utils.hpp"
 
 class plot_for_btagging {
-    
+
 
 public: static void ratioPlots(TH1* plo1, TH1* plot2, TString plotName);
 public: static TH1* getPlot(TString fileName, TString plotName);
 
 public: static void overlayPlots(TH1* plot1, TH1* plot2, TString plotName, TString legend1, TString legend2);
 public: static void overlayNPlots(TString plotName, std::vector<TString>, TH1* plot1,...);
-    
-public: static TH1* getRatioPlot(TH1* plo1, TH1* plot2, TString plotName);
+
+public: static TH1* getEffPlot(TH1* plo1, TH1* plot2, TString plotName);
+
+public: static void resultsForFile(TString t_name, std::string s_name);
 
 };
 
 
 #endif /* plot_for_btagging_h */
-
-
-
