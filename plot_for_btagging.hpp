@@ -29,6 +29,7 @@ public: static void overlayPlots(TH1* plot1, TH1* plot2, TString plotName, TStri
 public: static void overlayNPlots(TString plotName, std::vector<TString>, TH1* plot1,...);
 
 public: static TH1* getEffPlot(TH1* plot1, TH1* plot2, TString plotName);
+public: static void EffPlots(TH1* plot1, TH1* plot2, TString plotName);
 
 public: static void resultsForFile(TString t_name, std::string s_name);
 
