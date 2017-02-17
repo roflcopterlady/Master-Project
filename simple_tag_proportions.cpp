@@ -24,7 +24,7 @@ using std::cin;
 using std::string;
 using std::ofstream;
 
-string sample = "output2.root";
+string sample = "/home/oriana/scratch/code/output3.root";
 
 
 int cut_pos;
@@ -128,6 +128,10 @@ void simple_tag_proportions::Loop(bool write) {
     TH1 * H_all_ETA_labeled = MakePlot(hadron_type+"_ALL_ETA_L", 100, -3, 3);
     TH1 * H_all_ETA_tagged_low = MakePlot(hadron_type+"_ALL_ETA_LT_-0.7887", 100, -3, 3);
     TH1 * H_all_ETA_tagged_high = MakePlot(hadron_type+"_ALL_ETA_LT_0.4496", 100, -3, 3);
+
+    TH1 * H_all_HLOC_labeled = MakePlot(hadron_type+"_ALL_HLOC_L", 100, 0, 0.5);
+    TH1 * H_all_HLOC_tagged_low = MakePlot(hadron_type+"_ALL_HLOC_LT_-0.7887", 100, 0, 0.5);
+    TH1 * H_all_HLOC_tagged_high = MakePlot(hadron_type+"_ALL_HLOC_LT_0.4496", 100, 0, 0.5);
 
     TH1 * H_count_plot;
     TH1 * H_count_plot_tagged_low;
@@ -272,7 +276,6 @@ void simple_tag_proportions::Loop(bool write) {
             float pt_ratio = 0;
             float h_pt;
             float h_location;
-            float n_h_location;
 
             maxPt = (PT > maxPt) ? PT : maxPt;
             minPt = (PT < minPt) ? PT : minPt;
@@ -327,40 +330,40 @@ void simple_tag_proportions::Loop(bool write) {
 
                 H_all_PT_labeled->Fill(PT);
                 H_all_ETA_labeled->Fill(eta);
+                H_all_HLOC_labeled->Fill(h_location);
                 H_count_plot->Fill(index);
                 H_ratio_labeled->Fill(pt_ratio);
 
                 H_PT_labeled_hadrons[index]->Fill(PT);
                 H_ETA_labeled_hadrons[index]->Fill(eta);
-
                 H_LOC_labeled_hadrons[index]->Fill(h_location);
 
                 if (mv>-0.7887) {
                     H_all_PT_tagged_low->Fill(PT);
                     H_all_ETA_tagged_low->Fill(eta);
+                    H_all_HLOC_tagged_low->Fill(h_location);
 
                     H_PT_tagged_hadrons_low[index]->Fill(PT);
                     H_ETA_tagged_hadrons_low[index]->Fill(eta);
+                    H_LOC_tagged_hadrons_low[index]->Fill(h_location);
 
                     H_count_plot_tagged_low->Fill(index);
 
                     H_ratio_labeled_tagged_low->Fill(pt_ratio);
 
-                    H_LOC_tagged_hadrons_low[index]->Fill(h_location);
-
                 }
                 if (mv>0.4496) {
                     H_all_PT_tagged_high->Fill(PT);
                     H_all_ETA_tagged_high->Fill(eta);
+                    H_all_HLOC_tagged_high->Fill(h_location);
 
                     H_PT_tagged_hadrons_high[index]->Fill(PT);
                     H_ETA_tagged_hadrons_high[index]->Fill(eta);
+                    H_LOC_tagged_hadrons_high[index]->Fill(h_location);
 
                     H_count_plot_tagged_high->Fill(index);
 
                     H_ratio_labeled_tagged_high->Fill(pt_ratio);
-
-                    H_LOC_tagged_hadrons_high[index]->Fill(h_location);
 
                 }
             }
@@ -451,6 +454,10 @@ void simple_tag_proportions::Loop(bool write) {
         H_all_ETA_labeled->Write();
         H_all_ETA_tagged_low->Write();
         H_all_ETA_tagged_high->Write();
+
+        H_all_HLOC_labeled->Write();
+        H_all_HLOC_tagged_low->Write();
+        H_all_HLOC_tagged_high->Write();
 
         output_file_all->Close();
 
