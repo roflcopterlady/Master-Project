@@ -112,6 +112,8 @@ class simple_tag_proportions {
     
     virtual void Loop(bool write);
     
+public: static TH1* getEffPlot(TH1* plot1, TH1* plot2, TString plotName);
+    
     //virtual void overlayPlots(TH1* plot1, TH1* plot2, TString parameter);
    // void overlayNPlots(std::vector<TH1*> plotArray, TString plotName);
     //virtual void ratioPlots(TH1* plo1, TH1* plot2, TString parameter);
