@@ -33,7 +33,8 @@ public: static void EffPlots(TH1* plot1, TH1* plot2, TString plotName);
 
 public: static void resultsForFile(TString t_name, std::string s_name);
 
-};
+public: static void comparingGenerators(TString hadron, TString param, std::vector<TString> fileNames);
 
+};
 
 #endif /* plot_for_btagging_h */
