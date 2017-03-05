@@ -15,15 +15,11 @@ int hadron_number;
 float mv_value;
 
 int main() {
-    TString sample2 = "output2.root";
+    TString sample2 = "powheg2.root";
     //TString sample3 = "/home/oriana/scratch/code/output3.root";
     
-    //plot_for_btagging::resultsForFile(sample2, "output2.root");
+    plot_for_btagging::resultsForFile(sample2, "powheg2.root");
     //plot_for_btagging::resultsForFile(sample3, "output3.root");
-    
-    std::vector<TString> mcGenerators = {"output2.root", "output3.root"};
-    
-    plot_for_btagging::comparingGenerators("B", "PT", mcGenerators);
     
     return 0;
 }
@@ -53,8 +49,8 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
     TString B_ALL = t_name+"_B_all.root";
     TString C_ALL = t_name+"_C_all.root";
     
-    TString B_ALL_HPT_VS_JPT = t_name+"_B_hPT_vs_jPT.root";
-    TString C_ALL_HPT_VS_JPT = t_name+"_C_hPT_vs_jPT.root";
+//    TString B_ALL = t_name+"_B_hPT_vs_jPT.root";
+//    TString C_ALL = t_name+"_C_hPT_vs_jPT.root";
     
     //B_511 info
     TH1 * plot_B_511_PT_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_PT_L");
@@ -330,31 +326,31 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
     TH1 * plot_B_ALL_Count = plot_for_btagging::getPlot(B_PR, "B_PR_L");
     TH1 * plot_B_ALL_low_Count = plot_for_btagging::getPlot(B_PR, "B_PR_LT_-0.7887");
     TH1 * plot_B_ALL_high_Count = plot_for_btagging::getPlot(B_PR, "B_PR_LT_0.4496");
-    TH1 * plot_B_ALL_Count_Eff_low = plot_for_btagging::getEffPlot(plot_B_ALL_low_Count, plot_B_ALL_Count, "");
-    TH1 * plot_B_ALL_Count_Eff_high = plot_for_btagging::getEffPlot(plot_B_ALL_high_Count, plot_B_ALL_Count, "");
+    TH1 * plot_B_ALL_Count_Eff_low = plot_for_btagging::getEffPlot(plot_B_ALL_low_Count, plot_B_ALL_Count, "B_PR_Efficiency_-0.7887");
+    TH1 * plot_B_ALL_Count_Eff_high = plot_for_btagging::getEffPlot(plot_B_ALL_high_Count, plot_B_ALL_Count, "B_PR_Efficiency_0.4496");
     
     //Histograms of C hadron counts
     TH1 * plot_C_ALL_Count = plot_for_btagging::getPlot(C_PR, "C_PR_L");
     TH1 * plot_C_ALL_low_Count = plot_for_btagging::getPlot(C_PR, "C_PR_LT_-0.7887");
     TH1 * plot_C_ALL_high_Count = plot_for_btagging::getPlot(C_PR, "C_PR_LT_0.4496");
-    TH1 * plot_C_ALL_Count_Eff_low = plot_for_btagging::getEffPlot(plot_C_ALL_low_Count, plot_C_ALL_Count, "");
-    TH1 * plot_C_ALL_Count_Eff_high = plot_for_btagging::getEffPlot(plot_C_ALL_high_Count, plot_C_ALL_Count, "");
+    TH1 * plot_C_ALL_Count_Eff_low = plot_for_btagging::getEffPlot(plot_C_ALL_low_Count, plot_C_ALL_Count, "C_PR_Efficiency_-0.7887");
+    TH1 * plot_C_ALL_Count_Eff_high = plot_for_btagging::getEffPlot(plot_C_ALL_high_Count, plot_C_ALL_Count, "C_PR_Efficiency_0.4496");
     
     //B Hadron momentum vs Jet momentum
-    TH1 * plot_B_PT_H_VS_J_L = plot_for_btagging::getPlot(B_ALL_HPT_VS_JPT, "B_PT_H_VS_J_L");
-    TH1 * plot_B_PT_H_VS_J_LT_low = plot_for_btagging::getPlot(B_ALL_HPT_VS_JPT, "B_PT_H_VS_J_LT_-0.7887");
-    TH1 * plot_B_PT_H_VS_J_LT_high = plot_for_btagging::getPlot(B_ALL_HPT_VS_JPT, "B_PT_H_VS_J_LT_0.4496");
+    TH1 * plot_B_PT_H_VS_J_L = plot_for_btagging::getPlot(B_ALL, "B_PT_H_VS_J_L");
+    TH1 * plot_B_PT_H_VS_J_LT_low = plot_for_btagging::getPlot(B_ALL, "B_PT_H_VS_J_LT_-0.7887");
+    TH1 * plot_B_PT_H_VS_J_LT_high = plot_for_btagging::getPlot(B_ALL, "B_PT_H_VS_J_LT_0.4496");
     
-    TH1 * plot_B_PT_H_VS_J_Eff_low = plot_for_btagging::getEffPlot(plot_B_PT_H_VS_J_LT_low, plot_B_PT_H_VS_J_L, "");
-    TH1 * plot_B_PT_H_VS_J_Eff_high = plot_for_btagging::getEffPlot(plot_B_PT_H_VS_J_LT_high, plot_B_PT_H_VS_J_L, "");
+    TH1 * plot_B_PT_H_VS_J_Eff_low = plot_for_btagging::getEffPlot(plot_B_PT_H_VS_J_LT_low, plot_B_PT_H_VS_J_L, "B_PT_H_VS_J_LT_Efficinecy_-0.7887");
+    TH1 * plot_B_PT_H_VS_J_Eff_high = plot_for_btagging::getEffPlot(plot_B_PT_H_VS_J_LT_high, plot_B_PT_H_VS_J_L, "B_PT_H_VS_J_LT_Efficinecy_0.4496");
     
     //C Hadron momentum vs Jet momentum
-    TH1 * plot_C_PT_H_VS_J_L = plot_for_btagging::getPlot(C_ALL_HPT_VS_JPT, "C_PT_H_VS_J_L");
-    TH1 * plot_C_PT_H_VS_J_LT_low = plot_for_btagging::getPlot(C_ALL_HPT_VS_JPT, "C_PT_H_VS_J_LT_-0.7887");
-    TH1 * plot_C_PT_H_VS_J_LT_high = plot_for_btagging::getPlot(C_ALL_HPT_VS_JPT, "C_PT_H_VS_J_LT_0.4496");
+    TH1 * plot_C_PT_H_VS_J_L = plot_for_btagging::getPlot(C_ALL, "C_PT_H_VS_J_L");
+    TH1 * plot_C_PT_H_VS_J_LT_low = plot_for_btagging::getPlot(C_ALL, "C_PT_H_VS_J_LT_-0.7887");
+    TH1 * plot_C_PT_H_VS_J_LT_high = plot_for_btagging::getPlot(C_ALL, "C_PT_H_VS_J_LT_0.4496");
     
-    TH1 * plot_C_PT_H_VS_J_Eff_low = plot_for_btagging::getEffPlot(plot_C_PT_H_VS_J_LT_low, plot_C_PT_H_VS_J_L, "");
-    TH1 * plot_C_PT_H_VS_J_Eff_high = plot_for_btagging::getEffPlot(plot_C_PT_H_VS_J_LT_high, plot_C_PT_H_VS_J_L, "");
+    TH1 * plot_C_PT_H_VS_J_Eff_low = plot_for_btagging::getEffPlot(plot_C_PT_H_VS_J_LT_low, plot_C_PT_H_VS_J_L, "C_PT_H_VS_J_LT_Efficinecy_-0.7887");
+    TH1 * plot_C_PT_H_VS_J_Eff_high = plot_for_btagging::getEffPlot(plot_C_PT_H_VS_J_LT_high, plot_C_PT_H_VS_J_L, "C_PT_H_VS_J_LT_Efficinecy_0.4496");
     
     std::vector<TString> legends_B_hadrons = {"511", "521", "531", "541", "5122"};
     std::vector<TString> legends_C_hadrons = {"411", "421", "431", "4122"};
