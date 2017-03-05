@@ -49,8 +49,8 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
     TString B_ALL = t_name+"_B_all.root";
     TString C_ALL = t_name+"_C_all.root";
     
-//    TString B_ALL = t_name+"_B_hPT_vs_jPT.root";
-//    TString C_ALL = t_name+"_C_hPT_vs_jPT.root";
+    TString B_ALL_HPT_VS_JPT = t_name+"_B_hPT_vs_jPT.root";
+    TString C_ALL_HPT_VS_JPT = t_name+"_C_hPT_vs_jPT.root";
     
     //B_511 info
     TH1 * plot_B_511_PT_L = plot_for_btagging::getPlot(B_HADRONS_INFO, "B_511_PT_L");
@@ -337,17 +337,17 @@ void plot_for_btagging::resultsForFile(TString t_name, std::string s_name) {
     TH1 * plot_C_ALL_Count_Eff_high = plot_for_btagging::getEffPlot(plot_C_ALL_high_Count, plot_C_ALL_Count, "C_PR_Efficiency_0.4496");
     
     //B Hadron momentum vs Jet momentum
-    TH1 * plot_B_PT_H_VS_J_L = plot_for_btagging::getPlot(B_ALL, "B_PT_H_VS_J_L");
-    TH1 * plot_B_PT_H_VS_J_LT_low = plot_for_btagging::getPlot(B_ALL, "B_PT_H_VS_J_LT_-0.7887");
-    TH1 * plot_B_PT_H_VS_J_LT_high = plot_for_btagging::getPlot(B_ALL, "B_PT_H_VS_J_LT_0.4496");
+    TH1 * plot_B_PT_H_VS_J_L = plot_for_btagging::getPlot(B_ALL_HPT_VS_JPT, "B_PT_H_VS_J_L");
+    TH1 * plot_B_PT_H_VS_J_LT_low = plot_for_btagging::getPlot(B_ALL_HPT_VS_JPT, "B_PT_H_VS_J_LT_-0.7887");
+    TH1 * plot_B_PT_H_VS_J_LT_high = plot_for_btagging::getPlot(B_ALL_HPT_VS_JPT, "B_PT_H_VS_J_LT_0.4496");
     
     TH1 * plot_B_PT_H_VS_J_Eff_low = plot_for_btagging::getEffPlot(plot_B_PT_H_VS_J_LT_low, plot_B_PT_H_VS_J_L, "B_PT_H_VS_J_LT_Efficinecy_-0.7887");
     TH1 * plot_B_PT_H_VS_J_Eff_high = plot_for_btagging::getEffPlot(plot_B_PT_H_VS_J_LT_high, plot_B_PT_H_VS_J_L, "B_PT_H_VS_J_LT_Efficinecy_0.4496");
     
     //C Hadron momentum vs Jet momentum
-    TH1 * plot_C_PT_H_VS_J_L = plot_for_btagging::getPlot(C_ALL, "C_PT_H_VS_J_L");
-    TH1 * plot_C_PT_H_VS_J_LT_low = plot_for_btagging::getPlot(C_ALL, "C_PT_H_VS_J_LT_-0.7887");
-    TH1 * plot_C_PT_H_VS_J_LT_high = plot_for_btagging::getPlot(C_ALL, "C_PT_H_VS_J_LT_0.4496");
+    TH1 * plot_C_PT_H_VS_J_L = plot_for_btagging::getPlot(C_ALL_HPT_VS_JPT, "C_PT_H_VS_J_L");
+    TH1 * plot_C_PT_H_VS_J_LT_low = plot_for_btagging::getPlot(C_ALL_HPT_VS_JPT, "C_PT_H_VS_J_LT_-0.7887");
+    TH1 * plot_C_PT_H_VS_J_LT_high = plot_for_btagging::getPlot(C_ALL_HPT_VS_JPT, "C_PT_H_VS_J_LT_0.4496");
     
     TH1 * plot_C_PT_H_VS_J_Eff_low = plot_for_btagging::getEffPlot(plot_C_PT_H_VS_J_LT_low, plot_C_PT_H_VS_J_L, "C_PT_H_VS_J_LT_Efficinecy_-0.7887");
     TH1 * plot_C_PT_H_VS_J_Eff_high = plot_for_btagging::getEffPlot(plot_C_PT_H_VS_J_LT_high, plot_C_PT_H_VS_J_L, "C_PT_H_VS_J_LT_Efficinecy_0.4496");
