@@ -500,24 +500,6 @@ void simple_tag_proportions::Loop(bool write) {
         
         output_file_count->Close();
         
-        TFile * eff_plots_file = (hadron_type=="B") ? new TFile(effPlots, "RECREATE") : new TFile(effPlots, "RECREATE");
-        
-        eff_plots_file->cd();
-        
-        H_EFF_ALL_PT_LOW->Write();
-        H_EFF_ALL_PT_HIGH->Write();
-        H_EFF_ALL_ETA_LOW->Write();
-        H_EFF_ALL_ETA_HIGH->Write();
-        H_EFF_ALL_HLOC_LOW->Write();
-        H_EFF_ALL_HLOC_HIGH->Write();
-        H_EFF_ALL_PT_H_VS_J_LOW->Write();
-        H_EFF_ALL_PT_H_VS_J_HIGH->Write();
-        H_EFF_ALL_PR_LOW->Write();
-        H_EFF_ALL_PR_HIGH->Write();
-        
-        eff_plots_file->Close();
- 
-    }
 }
 
 TH1* simple_tag_proportions::getEffPlot(TH1* plot1, TH1* plot2, TString plotName) {
