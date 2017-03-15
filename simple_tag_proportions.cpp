@@ -259,6 +259,13 @@ void simple_tag_proportions::Loop(bool write) {
                 //	if((*jet_overlap_electron)[j]==1) continue;
                 if( DeltaR( (*jet_eta)[ijet], (*jet_phi)[ijet], (*jet_eta)[j], (*jet_phi)[j]) <0.8) {
                     veto=true;
+                    
+//                    cout<<"ETA1: "<<(*jet_eta)[ijet]<<endl;
+//                    cout<<"PHI1: "<<(*jet_phi)[ijet]<<endl;
+//                    cout<<"ETA2: "<<(*jet_eta)[j]<<endl;
+//                    cout<<"PHI2: "<<(*jet_phi)[j]<<endl;
+//                    
+//                    cout<<"DR: "<<DeltaR( (*jet_eta)[ijet], (*jet_phi)[ijet], (*jet_eta)[j], (*jet_phi)[j])<<endl;
                 }
             }
             
@@ -325,6 +332,7 @@ void simple_tag_proportions::Loop(bool write) {
                 
                 int index;
                 
+                
                 if (hadron_type=="B") {
                     index = find(b_hadrons.begin(), b_hadrons.end(), hlabel) - b_hadrons.begin();
                 }
@@ -332,6 +340,8 @@ void simple_tag_proportions::Loop(bool write) {
                     index = find(c_hadrons.begin(), c_hadrons.end(), hlabel) - c_hadrons.begin();
                     
                 }
+                
+                cout<<index<<" Hlabel: "<<hlabel<<endl;
                 
                 H_all_PT_labeled->Fill(PT);
                 H_all_ETA_labeled->Fill(eta);
@@ -500,6 +510,24 @@ void simple_tag_proportions::Loop(bool write) {
         
         output_file_count->Close();
         
+        TFile * eff_plots_file = (hadron_type=="B") ? new TFile(effPlots, "RECREATE") : new TFile(effPlots, "RECREATE");
+        
+        eff_plots_file->cd();
+        
+        H_EFF_ALL_PT_LOW->Write();
+        H_EFF_ALL_PT_HIGH->Write();
+        H_EFF_ALL_ETA_LOW->Write();
+        H_EFF_ALL_ETA_HIGH->Write();
+        H_EFF_ALL_HLOC_LOW->Write();
+        H_EFF_ALL_HLOC_HIGH->Write();
+        H_EFF_ALL_PT_H_VS_J_LOW->Write();
+        H_EFF_ALL_PT_H_VS_J_HIGH->Write();
+        H_EFF_ALL_PR_LOW->Write();
+        H_EFF_ALL_PR_HIGH->Write();
+        
+        eff_plots_file->Close();
+ 
+    }
 }
 
 TH1* simple_tag_proportions::getEffPlot(TH1* plot1, TH1* plot2, TString plotName) {
