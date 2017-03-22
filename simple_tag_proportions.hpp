@@ -40,6 +40,8 @@ bool pairsortsecond (pair<int, int> i, pair<int, int> j) { return (i.second > j.
 
 
 float DeltaR(float eta1, float phi1, float eta2, float phi2) {
+//    cout<<"PI: "<<TVector2::Phi_mpi_pi(phi2 - phi1)<<endl;
+//    cout<<"ETA: "<<fabs(eta2 - eta1)<<endl;
     return hypot(TVector2::Phi_mpi_pi(phi2 - phi1), fabs(eta2 - eta1));
 }
 
