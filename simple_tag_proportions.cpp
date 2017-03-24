@@ -289,8 +289,8 @@ void simple_tag_proportions::Loop(bool write) {
 
     //Get number of entries, and loop across all entries
     Long64_t nentries = fChain->GetEntriesFast();
-    nentries = 1000;
-    cout<<"Looping over "<<nentries<<" events."<<endl;
+    //nentries = 1000;
+    //cout<<"Looping over "<<nentries<<" events."<<endl;
     Long64_t nbytes = 0, nb = 0;
 
     //Loop over jets
@@ -390,7 +390,7 @@ void simple_tag_proportions::Loop(bool write) {
 
                     index = find(b_hadrons.begin(), b_hadrons.end(), hlabel) - b_hadrons.begin();
 
-                    cout<<"hadron: "<<hlabel<<" index: "<<index<<endl;
+                    //cout<<"hadron: "<<hlabel<<" index: "<<index<<endl;
                 }
                 else {
                     index = find(c_hadrons.begin(), c_hadrons.end(), hlabel) - c_hadrons.begin();
