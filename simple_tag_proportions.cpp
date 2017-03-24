@@ -24,7 +24,7 @@ using std::cin;
 using std::string;
 using std::ofstream;
 
-string sample = "/home/oriana/scratch/code/user.apmorris.slim.PowhegPy6.output.root";
+string sample = "/home/oriana/scratch/code/user.apmorris.slim.aMCNLOhpp.output.root";
 
 int cut_pos;
 
