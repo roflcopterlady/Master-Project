@@ -24,7 +24,7 @@ using std::cin;
 using std::string;
 using std::ofstream;
 
-string sample = "/home/oriana/scratch/code/user.apmorris.slim.aMCNLOhpp.output.root";
+string sample = "/home/oriana/scratch/code/user.apmorris.slim.PowhegPy8.output.root";
 
 int cut_pos;
 
@@ -34,17 +34,22 @@ float mv_value;
 bool first_time_title = true;
 bool loop_hadron = true;
 
-string hadron_type = "B";
+string hadron_type = "C";
 
 int hadronCounter = 1;
 
-std::map<float,int> B_hadron_count;
 
-//Vector for properties of entier family
+std::map<float,int> B_hadron_count_l;
+std::map<float,int> B_hadron_count_lt_low;
+std::map<float,int> B_hadron_count_lt_high;
+
+int jet_count = 1;
+
+//Vector for properties of entire family
 
 bool onceMV = true;
 
-//Geting the correct limits
+//Getting the correct limits
 float maxPt = std::numeric_limits<float>::min();
 float minPt = std::numeric_limits<float>::max();
 float maxEta = std::numeric_limits<float>::min();
@@ -67,7 +72,7 @@ int main(int argc, char* argv[]) {
      FixedCutBEff_90 	-0.9185 	90.17 	72.89 	1.95 	2.14 	9.27
      */
 
-    ///when using output.root remember that branch name was changed 20->10
+    ///when using output.root remember that branch name was changed 20->10 in .hpp file
 
     if(argc>1) sample = argv[1];
     cout<<"Using sample "<<sample<<endl;
@@ -116,8 +121,8 @@ void simple_tag_proportions::Loop(bool write) {
       int hadron = (hadron_type=="B") ? b_hadrons[i] : c_hadrons[i];
       ///PT
       std::string pt_l_string = hadron_type+"_"+std::to_string(hadron)+"_"+"PT"+"_"+"L";
-      std::string pt_lt_low_string = hadron_type+"_"+std::to_string(hadron)+"_"+"ETA"+"_"+"LT_-0.7887";
-      std::string pt_lt_high_string = hadron_type+"_"+std::to_string(hadron)+"_"+"ETA"+"_"+"LT_0.4496";
+      std::string pt_lt_low_string = hadron_type+"_"+std::to_string(hadron)+"_"+"PT"+"_"+"LT_-0.7887";
+      std::string pt_lt_high_string = hadron_type+"_"+std::to_string(hadron)+"_"+"PT"+"_"+"LT_0.4496";
 
       char const * pt_l = pt_l_string.c_str();
       char const * pt_lt_low = pt_lt_low_string.c_str();
@@ -141,9 +146,9 @@ void simple_tag_proportions::Loop(bool write) {
       H_ETA_tagged_hadrons_high.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"ETA"+"_"+"LT_0.4496", 100, -3, 3));
 
       ///PT RATIO
-      H_PT_RATIO_labeled_hadrons.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_PT_H_VS_J_L", 100, 0, 1));
-      H_PT_RATIO_tagged_hadrons_low.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_PT_H_VS_J_LT_-0.7887", 100, 0, 1));
-      H_PT_RATIO_tagged_hadrons_high.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_PT_H_VS_J_LT_0.4496", 100, 0, 1));
+      H_PT_RATIO_labeled_hadrons.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_PT_H_VS_J_L", 100, 0, 1.5));
+      H_PT_RATIO_tagged_hadrons_low.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_PT_H_VS_J_LT_-0.7887", 100, 0, 1.5));
+      H_PT_RATIO_tagged_hadrons_high.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_PT_H_VS_J_LT_0.4496", 100, 0, 1.5));
 
       ///HLOC
       H_LOC_labeled_hadrons.push_back(MakePlot(hadron_type+"_"+std::to_string(hadron)+"_"+"LOC"+"_"+"L", 100, 0, 0.5));
@@ -152,9 +157,9 @@ void simple_tag_proportions::Loop(bool write) {
   }
 
   ///ALL PT
-  std::string all_pt_l_string = hadron_type+"_"+"_ALL_"+"PT"+"_"+"L";
-  std::string all_pt_lt_low_string = hadron_type+"_"+"_ALL_"+"PT"+"_"+"LT_-0.7887";
-  std::string all_pt_lt_high_string = hadron_type+"_"+"_ALL_"+"PT"+"_"+"LT_0.4496";
+  std::string all_pt_l_string = hadron_type+"_"+"ALL_"+"PT"+"_"+"L";
+  std::string all_pt_lt_low_string = hadron_type+"_"+"ALL_"+"PT"+"_"+"LT_-0.7887";
+  std::string all_pt_lt_high_string = hadron_type+"_"+"ALL_"+"PT"+"_"+"LT_0.4496";
   char const * all_pt_l = all_pt_l_string.c_str();
   char const * all_pt_lt_low = all_pt_lt_low_string.c_str();
   char const * all_pt_lt_high = all_pt_lt_high_string.c_str();
@@ -176,12 +181,9 @@ void simple_tag_proportions::Loop(bool write) {
   TH1 * H_all_HLOC_tagged_high = MakePlot(hadron_type+"_ALL_HLOC_LT_0.4496", 100, 0, 0.5);
 
    ///ALL PT RATIO
-  TH1 * H_ratio_labeled = MakePlot(hadron_type+"_PT_H_VS_J_L", 100, 0, 1);
-  TH1 * H_ratio_labeled_tagged_low = MakePlot(hadron_type+"_PT_H_VS_J_LT_-0.7887", 100, 0, 1);
-  TH1 * H_ratio_labeled_tagged_high = MakePlot(hadron_type+"_PT_H_VS_J_LT_0.4496", 100, 0, 1);
-  H_ratio_labeled->SetAxisRange(0,1.5,"X");
-  H_ratio_labeled_tagged_low->SetAxisRange(0,1.5,"X");
-  H_ratio_labeled_tagged_high->SetAxisRange(0,1.5,"X");
+  TH1 * H_ratio_labeled = MakePlot(hadron_type+"_PT_H_VS_J_L", 100, 0, 1.5);
+  TH1 * H_ratio_labeled_tagged_low = MakePlot(hadron_type+"_PT_H_VS_J_LT_-0.7887", 100, 0, 1.5);
+  TH1 * H_ratio_labeled_tagged_high = MakePlot(hadron_type+"_PT_H_VS_J_LT_0.4496", 100, 0, 1.5);
 
     ///HADRON PRODUCTION RATE ************************
     ///************************
@@ -217,9 +219,9 @@ void simple_tag_proportions::Loop(bool write) {
     }
     else {
         // float c_hadrons_bins[8] = {0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5};
-        H_count_plot = new TH1F("C_PR_L", "C_PR_L", 10, -0.5, 6.5);
-        H_count_plot_tagged_low = new TH1F("C_PR_LT_-0.7887", "C_PR_LT_-0.7887", 10, -0.5, 6.5);
-        H_count_plot_tagged_high = new TH1F("C_PR_LT_0.4496", "C_PR_LT_0.4496", 10, -0.5, 6.5);
+        H_count_plot = new TH1F("C_PR_L", "C_PR_L", 7, -0.5, 6.5);
+        H_count_plot_tagged_low = new TH1F("C_PR_LT_-0.7887", "C_PR_LT_-0.7887", 7, -0.5, 6.5);
+        H_count_plot_tagged_high = new TH1F("C_PR_LT_0.4496", "C_PR_LT_0.4496", 7, -0.5, 6.5);
 
         H_count_plot->Sumw2();
         H_count_plot_tagged_low->Sumw2();
@@ -239,15 +241,6 @@ void simple_tag_proportions::Loop(bool write) {
             }
         }
     }
-
-    ///HADRON PRODUCTION RATE ************************
-    ///************************
-    ///************************
-
-    TH1 * H_ratio_labeled = MakePlot(hadron_type+"_PT_H_VS_J_L", 100, 0, 1.5);
-    TH1 * H_ratio_labeled_tagged_low = MakePlot(hadron_type+"_PT_H_VS_J_LT_-0.7887", 100, 0, 1.5);
-    TH1 * H_ratio_labeled_tagged_high = MakePlot(hadron_type+"_PT_H_VS_J_LT_0.4496", 100, 0, 1.5);
-
     // Get name of generator from input file
     TString generator = "powheg";//sample.substr(13, sample.find(".AOD")-13);
 
@@ -269,7 +262,6 @@ void simple_tag_proportions::Loop(bool write) {
     double xcbins[nbinsc+1] = {20, 60,100,160, 300};
     const int nweights = 11;
     // Histograms for separation between jets and nearest hadrons (Filled by Label method, so must be initialised here)
-    ///WHY DOES THIS HAVE TO BE HERE!
     h_bdR_min = MakePlot("h_b_jet_closest_b_hadron", 50, 0, 2);
     h_bdR_next = MakePlot("h_b_jet_next_closest_b_hadron", 50, 0, 2);
     h_cdR_min = MakePlot("h_c_jet_closest_b_hadron", 50, 0, 2);
@@ -296,8 +288,8 @@ void simple_tag_proportions::Loop(bool write) {
 
     //Get number of entries, and loop across all entries
     Long64_t nentries = fChain->GetEntriesFast();
-    nentries = 10000;
-    //cout<<"Looping over "<<nentries<<" events."<<endl;
+    //nentries = 10000;
+    cout<<"Looping over "<<nentries<<" events."<<endl;
     Long64_t nbytes = 0, nb = 0;
 
     //Loop over jets
@@ -311,7 +303,7 @@ void simple_tag_proportions::Loop(bool write) {
 
         //loop over jets in event
 
-        for(int ijet=0; ijet< (*jet_pT).size(); ijet++) { ///.size if the length of the coloumn -> the number fo jets
+        for(int ijet=0; ijet< (*jet_pT).size(); ijet++) { ///.size if the length of the coloumn -> the number of jets
 
             //veto jets that are close together:
             bool veto = false;
@@ -335,8 +327,8 @@ void simple_tag_proportions::Loop(bool write) {
             const int hlabel = labels.second; //pdg id of hadron
 
             //and only jets with one match:
-            if( bh.size()>1 || ch.size()>1) continue;
-            if( bh.size() == 0 || ch.size() == 0 ) continue;
+            //if( bh.size()>1 || ch.size()>1) continue;
+            //if( bh.size() == 0 || ch.size() == 0 ) continue;
 
             // Load properties of jet
             const float mv = (*jet_MV2c20)[ijet];
@@ -369,7 +361,7 @@ void simple_tag_proportions::Loop(bool write) {
             }
 
             //Iterate total number of jets if label hadron matches one being examined, and number of tagged jets if MV2C20 above cut.
-            //LABLED JETS
+            //LABELED JETS
 
             //cout<<hlabel<<endl;
 
@@ -406,7 +398,7 @@ void simple_tag_proportions::Loop(bool write) {
 
                 // cout<<index<<" Hlabel: "<<hlabel<<endl;
 
-                test_pt_l_all->Fill(PT);
+                H_all_PT_labeled->Fill(PT);
                 H_all_ETA_labeled->Fill(eta);
                 H_all_HLOC_labeled->Fill(h_location);
                 H_count_plot->Fill(index);
@@ -418,7 +410,7 @@ void simple_tag_proportions::Loop(bool write) {
                 H_LOC_labeled_hadrons[index]->Fill(h_location);
 
                 if (mv>-0.7887) {
-                    test_pt_lt_low_all->Fill(PT);
+                    H_all_PT_tagged_low->Fill(PT);
                     H_all_ETA_tagged_low->Fill(eta);
                     H_all_HLOC_tagged_low->Fill(h_location);
 
@@ -432,7 +424,7 @@ void simple_tag_proportions::Loop(bool write) {
 
                 }
                 if (mv>0.4496) {
-                    test_pt_lt_high_all->Fill(PT);
+                    H_all_PT_tagged_high->Fill(PT);
                     H_all_ETA_tagged_high->Fill(eta);
                     H_all_HLOC_tagged_high->Fill(h_location);
 
@@ -450,8 +442,8 @@ void simple_tag_proportions::Loop(bool write) {
         }
     }
 
-    TH1 * H_EFF_ALL_PT_LOW = simple_tag_proportions::getEffPlot(test_pt_lt_low_all, test_pt_l_all, hadron_type+"_EFF_ALL_PT_LT_-0.7887");
-    TH1 * H_EFF_ALL_PT_HIGH = simple_tag_proportions::getEffPlot(test_pt_lt_high_all, test_pt_l_all, hadron_type+"_EFF_ALL_PT_LT_0.4496");
+    TH1 * H_EFF_ALL_PT_LOW = simple_tag_proportions::getEffPlot(H_all_PT_tagged_low, H_all_PT_labeled, hadron_type+"_EFF_ALL_PT_LT_-0.7887");
+    TH1 * H_EFF_ALL_PT_HIGH = simple_tag_proportions::getEffPlot(H_all_PT_tagged_high, H_all_PT_labeled, hadron_type+"_EFF_ALL_PT_LT_0.4496");
 
     TH1 * H_EFF_ALL_ETA_LOW = simple_tag_proportions::getEffPlot(H_all_ETA_tagged_low, H_all_ETA_labeled, hadron_type+"_EFF_ALL_ETA_LT_-0.7887");
     TH1 * H_EFF_ALL_ETA_HIGH = simple_tag_proportions::getEffPlot(H_all_ETA_tagged_high, H_all_ETA_labeled, hadron_type+"_EFF_ALL_ETA_LT_0.4496");
@@ -462,8 +454,8 @@ void simple_tag_proportions::Loop(bool write) {
     TH1 * H_EFF_ALL_PT_H_VS_J_LOW = simple_tag_proportions::getEffPlot(H_ratio_labeled_tagged_low, H_ratio_labeled, hadron_type+"_EFF_ALL_PT_H_VS_J_LT_-0.7887");
     TH1 * H_EFF_ALL_PT_H_VS_J_HIGH = simple_tag_proportions::getEffPlot(H_ratio_labeled_tagged_high, H_ratio_labeled, hadron_type+"_EFF_ALL_PT_H_VS_J_LT_0.4496");
 
-    TH1 * H_EFF_ALL_PR_LOW = simple_tag_proportions::getEffPlot(H_count_plot_tagged_low, H_count_plot, hadron_type+"EFF_ALL_PR_LT_-0.7887");
-    TH1 * H_EFF_ALL_PR_HIGH = simple_tag_proportions::getEffPlot(H_count_plot_tagged_high, H_count_plot, hadron_type+"EFF_ALL_PR_LT_0.4496");
+    TH1 * H_EFF_ALL_PR_LOW = simple_tag_proportions::getEffPlot(H_count_plot_tagged_low, H_count_plot, hadron_type+"_EFF_ALL_PR_LT_-0.7887");
+    TH1 * H_EFF_ALL_PR_HIGH = simple_tag_proportions::getEffPlot(H_count_plot_tagged_high, H_count_plot, hadron_type+"_EFF_ALL_PR_LT_0.4496");
 
     ///Writing an output file for MV2C20 Analysis
     ///Over all MV2C20 values for B and C-Hadrons in file utils.h
@@ -578,12 +570,12 @@ void simple_tag_proportions::Loop(bool write) {
 
         //Label axes
 
-        test_pt_l_all->GetXaxis()->SetTitle("Transverse Momentum (GeV/c)");
-        test_pt_lt_low_all->GetXaxis()->SetTitle("Transverse Momentum (GeV/c)");
-        test_pt_lt_high_all->GetXaxis()->SetTitle("Transverse Momentum (GeV/c)");
-        test_pt_l_all->GetYaxis()->SetTitle("Count");
-        test_pt_lt_low_all->GetYaxis()->SetTitle("Count");
-        test_pt_lt_high_all->GetYaxis()->SetTitle("Count");
+        H_all_PT_labeled->GetXaxis()->SetTitle("Transverse Momentum (GeV/c)");
+        H_all_PT_tagged_low->GetXaxis()->SetTitle("Transverse Momentum (GeV/c)");
+        H_all_PT_tagged_high->GetXaxis()->SetTitle("Transverse Momentum (GeV/c)");
+        H_all_PT_labeled->GetYaxis()->SetTitle("Count");
+        H_all_PT_tagged_low->GetYaxis()->SetTitle("Count");
+        H_all_PT_tagged_high->GetYaxis()->SetTitle("Count");
 
         H_all_ETA_labeled->GetXaxis()->SetTitle("Pseudorapidity");
         H_all_ETA_tagged_low->GetXaxis()->SetTitle("Pseudorapidity");
@@ -608,9 +600,9 @@ void simple_tag_proportions::Loop(bool write) {
 
         //Write histograms
 
-        test_pt_l_all->Write();
-        test_pt_lt_low_all->Write();
-        test_pt_lt_high_all->Write();
+        H_all_PT_labeled->Write();
+        H_all_PT_tagged_low->Write();
+        H_all_PT_tagged_high->Write();
 
         H_all_ETA_labeled->Write();
         H_all_ETA_tagged_low->Write();
