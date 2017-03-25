@@ -6,7 +6,7 @@ C_FLAGS = -g
 ROOTCFLAGS=$(shell root-config --cflags) 
 ROOTLIBS= $(shell root-config --libs)
 
-all: simple_tag_proportions plot_for_btagging
+all: simple_tag_proportions plot_for_btagging compare_generators
 #  plot compare_work_points compare_tag_proportions_generators compare_tag_proportions_hadrons
 #TriggerAnalysis PlotResult
 
@@ -30,6 +30,9 @@ simple_tag_proportions: simple_tag_proportions.cpp simple_tag_proportions.hpp ut
 
 plot_for_btagging: plot_for_btagging.cpp plot_for_btagging.hpp utils.hpp
 	$(C++) $(ROOTCFLAGS) $(C_FLAGS) plot_for_btagging.cpp  -o plot_for_btagging  $(ROOTLIBS)
+
+compare_generators: compare_generators.cpp compare_generators.hpp utils.hpp
+	$(C++) $(ROOTCFLAGS) $(C_FLAGS) compare_generators.cpp  -o compare_generators  $(ROOTLIBS)
 
 Draw: Draw.cpp utils.hpp
 	$(C++) $(ROOTCFLAGS) $(C_FLAGS) Draw.cpp  -o Draw  $(ROOTLIBS) 
