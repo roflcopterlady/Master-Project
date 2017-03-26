@@ -27,13 +27,13 @@ int main() {
         "PowhegPy8", "PowhegPy6",
         "PowhegHpp", "MG5aMCPy8",
         "MG5aMChpp", "aMCNLOhpp"
-    };
+};
 
     std::vector<std::string> b_hadron_eff_files = {
-
+        "B_ALL_PT_EFF_-0.7887","B_ALL_PT_EFF_0.4496",
         "B_ALL_ETA_EFF_-0.7887","B_ALL_ETA_EFF_0.4496",
-        "B_ALL_HLOC_EFF_-0.7887","B_ALL_HLOC_EFF_0.4496",
-        "B_PT_H_VS_J_LT_EFF_-0.7887","B_PT_H_VS_J_LT_EFF_0.4496",
+        "B_ALL_DR_EFF_-0.7887","B_ALL_DR_EFF_0.4496",
+        "B_ALL_PT_H_VS_J_LT_EFF_-0.7887","B_ALL_PT_H_VS_J_LT_EFF_0.4496",
         "B_PR_EFF_0.4496","B_PR_EFF_-0.7887",
         "B_511_PT_EFF_-0.7887","B_511_PT_EFF_0.4496",
         "B_511_ETA_EFF_-0.7887","B_511_ETA_EFF_0.4496",
@@ -59,9 +59,10 @@ int main() {
 
     std::vector<std::string> c_hadron_eff_files = {
 
+        "C_ALL_PT_EFF_-0.7887","C_ALL_PT_EFF_0.4496",
         "C_ALL_ETA_EFF_-0.7887", "C_ALL_ETA_EFF_0.4496",
-        "C_ALL_HLOC_EFF_-0.7887", "C_ALL_HLOC_EFF_0.4496",
-        "C_PT_H_VS_J_LT_EFF_-0.7887", "C_PT_H_VS_J_LT_EFF_0.4496",
+        "C_ALL_DR_EFF_-0.7887", "C_ALL_DR_EFF_0.4496",
+        "C_ALL_PT_H_VS_J_LT_EFF_-0.7887", "C_ALL_PT_H_VS_J_LT_EFF_0.4496",
         "C_PR_EFF_0.4496", "C_PR_EFF_-0.7887",
         "C_411_PT_EFF_-0.7887", "C_411_PT_EFF_0.4496",
         "C_411_ETA_EFF_-0.7887", "C_411_ETA_EFF_0.4496",
@@ -80,16 +81,6 @@ int main() {
         "C_4122_PT_H_VS_J_LT_EFF_-0.7887", "C_4122_PT_H_VS_J_LT_EFF_0.4496",
         "C_4122_HLOC_EFF_-0.7887", "C_4122_HLOC_EFF_0.4496"
     };
-
-    for (std::string file : b_hadron_eff_files) {
-        compare_generators::overlaysForCategory(file, generatorNames);
-    }
-
-    for (std::string file : c_hadron_eff_files) {
-        compare_generators::overlaysForCategory(file, generatorNames);
-    }
-
-    compare_generators::ratioBetweenEfficiencies("PowhegPy8", "PowhegHpp", b_hadron_eff_files);
 
     return 0;
 }
@@ -113,11 +104,12 @@ void compare_generators::ratioBetweenEfficiencies(std::string generator1,
         TH1 * ratio_plot = compare_generators::getEffPlot(currentClone1, currentClone2, fileName);
         ratio_plot->SetAxisRange(0,2,"Y");
         ratio_plot->SetYTitle("Ratio");
+        ratio_plot->SetAxisRange(0.8,1.4,"Y");
 
-        std::string output_name = "RATIO_BETWEEN_"+generator1+"_"+generator2+".root";
+        std::string output_name = "RATIO_BETWEEN_"+hadron_type+"_"+generator1+"_"+generator2+".root";
         char const * output_name_char = output_name.c_str();
 
-        TFile * compare_file =  new TFile(output_name_char, "UPDATE");
+        TFile * compare_file =  new TFile(output_name_char, "RECREATE");
 
         compare_file->cd();
 
@@ -128,7 +120,7 @@ void compare_generators::ratioBetweenEfficiencies(std::string generator1,
     }
 }
 
-void compare_generators::overlaysForCategory(std::string fileName, std::vector<std::string> generators) {
+void compare_generators::overlaysForCategory(std::string fileName, std::vector<std::string> generators, std::string prefix) {
 
     std::vector<TH1*> clones_to_overlay;
 
@@ -178,7 +170,10 @@ void compare_generators::overlaysForCategory(std::string fileName, std::vector<s
 
     char const * output_file = fileName.c_str();
 
-    TFile * test_compare =  new TFile("COMPARING_GENERATORS.root", "UPDATE");
+    std::string result_file_name_string = prefix+"_COMPARING_GENERATORS.root";
+    char const * result_file_name = result_file_name_string.c_str();
+
+    TFile * test_compare =  new TFile(result_file_name, "RECREATE");
 
     test_compare->cd();
 
@@ -209,7 +204,7 @@ void compare_generators::differenceBetweenEfficiencies(std::string generator1,
         std::string output_name = "DIFF_BETWEEN_"+generator1+"_"+generator2+".root";
         char const * output_name_char = output_name.c_str();
 
-        TFile * compare_file =  new TFile(output_name_char, "UPDATE");
+        TFile * compare_file =  new TFile(output_name_char, "RECREATE");
 
         compare_file->cd();
 
