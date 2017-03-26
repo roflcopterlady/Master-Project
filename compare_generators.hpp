@@ -27,7 +27,7 @@ public: static TH1* getPlot(std::string fileName, TString plotName);
     
 public: static TH1* getEffPlot(TH1* plot1, TH1* plot2, TString plotName);
     
-public: static void overlaysForCategory(std::string fileName, std::vector<std::string> generators);
+public: static void overlaysForCategory(std::string fileName, std::vector<std::string> generators, std::string prefix);
     
 public: static void differenceBetweenEfficiencies(std::string generator1, std::string generator2, std::vector<std::string> fileNames);
     
